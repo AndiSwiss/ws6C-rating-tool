@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
+  Function onSubmit;
+  SearchBar({this.onSubmit});
   @override
   _SearchBarState createState() => _SearchBarState();
 }
@@ -22,7 +24,7 @@ class _SearchBarState extends State<SearchBar> {
         controller: _controller,
         //TODO onChanged function => live updating results
         onChanged: null,
-        onSubmitted: null,
+        onSubmitted: widget.onSubmit,
         autocorrect: false,
         decoration: InputDecoration(
           hintText: "Search for a movie...",
