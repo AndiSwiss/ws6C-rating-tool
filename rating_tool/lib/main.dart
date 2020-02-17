@@ -88,9 +88,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   //controller: _controller,
                   child: Column(
                     children: <Widget>[
-                      posters.length == 0
-                          ? CircularProgressIndicator()
-                          : Container(),
                       Wrap(
                         children: <Widget>[
                           ...posters,
