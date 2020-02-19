@@ -37,25 +37,52 @@ class _MyHomePageState extends State<MyHomePage> {
   Map<String, dynamic> apiResponse;
   List<dynamic> results;
   List<MoviePoster> posters = new List<MoviePoster>();
-
+  int page = 0;
+  ScrollController _controller;
+  String searchQuery = "";
 
   void initState() {
     super.initState();
+    _controller = new ScrollController();
+    reset("");
+    _controller.addListener(() {
+      debugPrint(_controller.position.pixels.toString() + " -- " +  _controller.position.maxScrollExtent.toString());
+      // debugPrint((_controller.position.pixels >= _controller.position.maxScrollExtent - 100).toString());
+      if ((_controller.position.atEdge) ) {
+        page++;
+        getMovies();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void reset(String query) {
+    posters.clear();
+    searchQuery = query;
+    page = 1;
   }
 
   /**
    * Clears and sets the posters list.
    * Makes a HTTP GET request to get all movies matching the query.
    */
-  void getMovies(String searchQuery) async {
-    posters.clear();
+  void getMovies() async {
+    debugPrint(searchQuery);
     debugPrint("Getting Movies...");
     String url =
-        "https://api.themoviedb.org/3/search/movie?api_key=2a5e9e9ffe88a72d360c94f040190e21";
-    final response = await http.get(url + "&query=" + searchQuery);
+        "https://api.themoviedb.org/3/search/movie?api_key=2a5e9e9ffe88a72d360c94f040190e21&query=$searchQuery&page=$page";
+    final response = await http.get(url);
+    debugPrint(url);
+    debugPrint("Fetch ok");
     if (response.statusCode == 200) {
+      debugPrint("status ok");
       apiResponse = json.decode(response.body);
-      if (apiResponse["total_results"] > 0) {
+        if (apiResponse["total_pages"] >= page) {
         results = apiResponse["results"];
         //debugPrint(results.toString());
         setState(() {
@@ -79,13 +106,13 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SearchBar(
-              onSubmit: (text) => {getMovies(text)},
+              onSubmit: (text) => {reset(text), getMovies()},
             ),
             Expanded(
               child: Container(
                 child: SingleChildScrollView(
-                  //TODO Add scrollcontroller for infinite scroll and image fetching 
-                  //controller: _controller,
+                  //TODO Add scrollcontroller for infinite scroll and image fetching
+                  controller: _controller,
                   child: Column(
                     children: <Widget>[
                       Wrap(
