@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:rating_tool/Components/movieDetails.dart';
 import 'package:rating_tool/Components/searchBar.dart';
 
 import 'Components/moviePoster.dart';
@@ -19,7 +20,12 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
-      home: MyHomePage(title: 'Movie Rating Tool'),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => MyHomePage(title: "Movie Rating Tool",),
+        "/details": (context) => MovieDetails(),
+      },
+      
     );
   }
 }
