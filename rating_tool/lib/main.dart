@@ -46,15 +46,19 @@ class _MyHomePageState extends State<MyHomePage> {
   int page = 0;
   ScrollController _controller;
   String searchQuery = "";
+  bool loading = false;
 
   void initState() {
     super.initState();
     _controller = new ScrollController();
     reset("");
     _controller.addListener(() {
+      //TODO LOAD IMAGES SOONER
       debugPrint(_controller.position.pixels.toString() + " -- " +  _controller.position.maxScrollExtent.toString());
-      // debugPrint((_controller.position.pixels >= _controller.position.maxScrollExtent - 100).toString());
-      if ((_controller.position.atEdge) ) {
+      //debugPrint((_controller.position.pixels >= _controller.position.maxScrollExtent - 100).toString());
+      //if ((_controller.position.atEdge) ) {
+      if(!loading && _controller.position.pixels >= _controller.position.maxScrollExtent - 400){
+        loading = true;
         page++;
         getMovies();
       }
@@ -98,6 +102,7 @@ class _MyHomePageState extends State<MyHomePage> {
               });
         });
       }
+      loading = false;
     }
   }
 
@@ -117,7 +122,6 @@ class _MyHomePageState extends State<MyHomePage> {
             Expanded(
               child: Container(
                 child: SingleChildScrollView(
-                  //TODO Add scrollcontroller for infinite scroll and image fetching
                   controller: _controller,
                   child: Column(
                     children: <Widget>[
