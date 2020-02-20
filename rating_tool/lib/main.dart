@@ -81,17 +81,16 @@ class _MyHomePageState extends State<MyHomePage> {
     page = 1;
   }
 
-  /**
-   * Adds to the posters list.
-   * Makes a HTTP GET request to get all movies matching the query.
-   */
+  /// Adds to the posters list.
+  /// Makes a HTTP GET request to get all movies matching the query.
+
   void getMovies() async {
     debugPrint(searchQuery);
     debugPrint("Getting Movies...");
     String url =
         "https://api.themoviedb.org/3/search/movie?api_key=2a5e9e9ffe88a72d360c94f040190e21&query=$searchQuery&page=$page";
-    final response = await http.get(url);
     debugPrint(url);
+    final response = await http.get(url);
     debugPrint("Fetch ok");
     if (response.statusCode == 200) {
       debugPrint("status ok");
@@ -101,7 +100,7 @@ class _MyHomePageState extends State<MyHomePage> {
         //debugPrint(results.toString());
         setState(() {
           results.forEach((m) => {
-                debugPrint(m["release_date"].toString()),
+                //debugPrint(m["release_date"].toString()),
                 posters.add(new MoviePoster(Movie(
                   title: m["title"],
                   posterUrl: m["poster_path"],

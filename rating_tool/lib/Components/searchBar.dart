@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
-  Function onSubmit;
+  final Function onSubmit;
   SearchBar({this.onSubmit});
   @override
   _SearchBarState createState() => _SearchBarState();

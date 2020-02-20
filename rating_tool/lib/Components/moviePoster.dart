@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
 
 class MoviePoster extends StatelessWidget {
-  Movie movie;
+  final Movie movie;
 
   MoviePoster(this.movie);
 

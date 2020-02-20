@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
 
 class MovieDetails extends StatefulWidget {
-  String title;
+  final String title;
   MovieDetails({this.title = "Movie Rating Tool"});
 
   @override
