@@ -104,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       posterUrl: m["poster_path"],
                       id: m["id"],
                       description: m["overview"],
-                      releaseDate: DateTime.parse(m["release_date"].replaceAll(RegExp('-'), '')),
+                      releaseDate: DateTime.parse(m["release_date"] ?? "1900-01-01".replaceAll(RegExp('-'), '')),
                       )))
               });
         });

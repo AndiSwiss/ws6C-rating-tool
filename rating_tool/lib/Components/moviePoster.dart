@@ -14,7 +14,13 @@ class MoviePoster extends StatelessWidget {
         height: 513 / 2.5,
         width: 342 / 2.5,
         child: GestureDetector(
-          child: movie.poster,
+          child: movie.posterUrl != null
+              ? movie.poster
+              : Container(
+                  color: Colors.grey,
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: Text(movie.title, textAlign: TextAlign.center))),
           onTap: () {
             Navigator.of(context).pushNamed("/details", arguments: movie);
           },
