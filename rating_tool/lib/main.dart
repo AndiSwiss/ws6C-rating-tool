@@ -53,8 +53,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _controller = new ScrollController();
     reset("");
     _controller.addListener(() {
-      //TODO LOAD IMAGES SOONER
-      debugPrint(_controller.position.pixels.toString() + " -- " +  _controller.position.maxScrollExtent.toString());
+      //debugPrint(_controller.position.pixels.toString() + " -- " +  _controller.position.maxScrollExtent.toString());
       //debugPrint((_controller.position.pixels >= _controller.position.maxScrollExtent - 100).toString());
       //if ((_controller.position.atEdge) ) {
       if(!loading && _controller.position.pixels >= _controller.position.maxScrollExtent - 400){
