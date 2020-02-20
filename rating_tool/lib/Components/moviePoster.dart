@@ -17,10 +17,10 @@ class MoviePoster extends StatelessWidget {
           child: movie.posterUrl != null
               ? movie.poster
               : Container(
-                  color: Colors.grey,
+                  color: Color.fromRGBO(45, 47, 49, 1),
                   child: Align(
                       alignment: Alignment.center,
-                      child: Text(movie.title, textAlign: TextAlign.center))),
+                      child: Text(movie.title, textAlign: TextAlign.center, style: TextStyle(color: Colors.white)))),
           onTap: () {
             Navigator.of(context).pushNamed("/details", arguments: movie);
           },
