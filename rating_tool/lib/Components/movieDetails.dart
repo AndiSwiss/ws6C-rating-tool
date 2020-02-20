@@ -36,23 +36,26 @@ class _MovieDetailsState extends State<MovieDetails> {
                   width: 342 / 2,
                   child: movie.poster,
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 25.0),
-                  child: Container(
-                    child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            movie.title,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 18),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 8.0),
-                            child: Text("INSERT DESCRIPTION"),
-                          )
-                        ]),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25.0),
+                    child: Container(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              movie.title,
+                              textAlign: TextAlign.left,
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 18),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 8.0),
+                              child: Text(movie.description, softWrap: true, maxLines: 5, overflow: TextOverflow.ellipsis,),
+                            )
+                          ]),
+                    ),
                   ),
                 )
               ]),
@@ -60,55 +63,78 @@ class _MovieDetailsState extends State<MovieDetails> {
                   padding:
                       const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
                   child: Container(
-                    height: 250,
+                    height: 275,
                     child: SingleChildScrollView(
                       child: Column(children: <Widget>[
+                        Text("Abstractness"),
                         Slider(
                           onChanged: (double value) {
-                            setState(() => this.valueSlider1 = value);
+                            setState(() => movie.abstractness = value);
                           },
-                          
-                          value: valueSlider1,
+                          value: movie.abstractness,
                           max: 100,
                           min: 0,
                         ),
+                        Text("Cinematography"),
                         Slider(
                           onChanged: (double value) {
-                            setState(() => this.valueSlider2 = value);
+                            setState(() => movie.cinematography = value);
                           },
-                          value: valueSlider2,
+                          value: movie.cinematography,
                           max: 100,
                           min: 0,
                         ),
+                        Text("Complexity"),
                         Slider(
                           onChanged: (double value) {
-                            setState(() => this.valueSlider3 = value);
+                            setState(() => movie.complexity = value);
                           },
-                          value: valueSlider3,
+                          value: movie.complexity,
                           max: 100,
                           min: 0,
                         ),
+                        Text("Darkness"),
                         Slider(
                           onChanged: (double value) {
-                            setState(() => this.valueSlider4 = value);
+                            setState(() => movie.darkness = value);
                           },
-                          value: valueSlider4,
+                          value: movie.darkness,
                           max: 100,
                           min: 0,
                         ),
+                        Text("Humor"),
                         Slider(
                           onChanged: (double value) {
-                            setState(() => this.valueSlider5 = value);
+                            setState(() => movie.humor = value);
                           },
-                          value: valueSlider5,
+                          value: movie.humor,
                           max: 100,
                           min: 0,
                         ),
+                        Text("Realism"),
                         Slider(
                           onChanged: (double value) {
-                            setState(() => this.valueSlider6 = value);
+                            setState(() => movie.realism = value);
                           },
-                          value: valueSlider6,
+                          value: movie.realism,
+                          max: 100,
+                          min: 0,
+                        ),
+                        Text("Suspense"),
+                        Slider(
+                          onChanged: (double value) {
+                            setState(() => movie.suspense = value);
+                          },
+                          value: movie.suspense,
+                          max: 100,
+                          min: 0,
+                        ),
+                        Text("Wokeness"),
+                        Slider(
+                          onChanged: (double value) {
+                            setState(() => movie.wokeness = value);
+                          },
+                          value: movie.wokeness,
                           max: 100,
                           min: 0,
                         )

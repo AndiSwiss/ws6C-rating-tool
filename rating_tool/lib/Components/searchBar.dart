@@ -10,13 +10,8 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   @override
   Widget build(BuildContext context) {
-    TextEditingController _controller;
+    TextEditingController _controller = new TextEditingController();
 
-    @override
-    void initState(){
-      super.initState();
-      _controller = new TextEditingController();
-    }
 
     return Container(
       width: MediaQuery.of(context).size.width * 0.8,

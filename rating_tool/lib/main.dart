@@ -43,7 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Map<String, dynamic> apiResponse;
   List<dynamic> results;
   List<MoviePoster> posters = new List<MoviePoster>();
-  int page = 0;
+  int page = 1;
   ScrollController _controller;
   String searchQuery = "";
   bool loading = false;
@@ -51,8 +51,9 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     super.initState();
     _controller = new ScrollController();
-    reset("");
+    //reset("");
     _controller.addListener(() {
+      //TODO Fix double loading of pages due to maxScrollExtend not being updated fast enough
       //debugPrint(_controller.position.pixels.toString() + " -- " +  _controller.position.maxScrollExtent.toString());
       //debugPrint((_controller.position.pixels >= _controller.position.maxScrollExtent - 100).toString());
       //if ((_controller.position.atEdge) ) {
@@ -73,11 +74,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void reset(String query) {
     posters.clear();
     searchQuery = query;
+    _controller.jumpTo(0);
     page = 1;
   }
 
   /**
-   * Clears and sets the posters list.
+   * Adds to the posters list.
    * Makes a HTTP GET request to get all movies matching the query.
    */
   void getMovies() async {
@@ -97,7 +99,13 @@ class _MyHomePageState extends State<MyHomePage> {
         setState(() {
           results.forEach((m) => {
                 posters
-                    .add(new MoviePoster(Movie(m["title"], m["poster_path"])))
+                    .add(new MoviePoster(Movie(
+                      title: m["title"], 
+                      posterUrl: m["poster_path"],
+                      id: m["id"],
+                      description: m["overview"],
+                      releaseDate: DateTime.parse(m["release_date"].replaceAll(RegExp('-'), '')),
+                      )))
               });
         });
       }
