@@ -22,10 +22,11 @@ class MyApp extends StatelessWidget {
       ),
       initialRoute: "/",
       routes: {
-        "/": (context) => MyHomePage(title: "Movie Rating Tool",),
+        "/": (context) => MyHomePage(
+              title: "Movie Rating Tool",
+            ),
         "/details": (context) => MovieDetails(),
       },
-      
     );
   }
 }
@@ -57,7 +58,9 @@ class _MyHomePageState extends State<MyHomePage> {
       //debugPrint(_controller.position.pixels.toString() + " -- " +  _controller.position.maxScrollExtent.toString());
       //debugPrint((_controller.position.pixels >= _controller.position.maxScrollExtent - 100).toString());
       //if ((_controller.position.atEdge) ) {
-      if(!loading && _controller.position.pixels >= _controller.position.maxScrollExtent - 400){
+      if (!loading &&
+          _controller.position.pixels >=
+              _controller.position.maxScrollExtent - 400) {
         loading = true;
         page++;
         getMovies();
@@ -93,20 +96,22 @@ class _MyHomePageState extends State<MyHomePage> {
     if (response.statusCode == 200) {
       debugPrint("status ok");
       apiResponse = json.decode(response.body);
-        if (apiResponse["total_pages"] >= page) {
+      if (apiResponse["total_pages"] >= page) {
         results = apiResponse["results"];
         //debugPrint(results.toString());
         setState(() {
           results.forEach((m) => {
-            debugPrint(m["release_date"].toString()),
-                posters
-                    .add(new MoviePoster(Movie(
-                      title: m["title"], 
-                      posterUrl: m["poster_path"],
-                      id: m["id"],
-                      description: m["overview"],
-                      releaseDate: DateTime.parse((m["release_date"] != "" ? m["release_date"] : "1200-01-01").replaceAll(RegExp('-'), '')),
-                      )))
+                debugPrint(m["release_date"].toString()),
+                posters.add(new MoviePoster(Movie(
+                  title: m["title"],
+                  posterUrl: m["poster_path"],
+                  id: m["id"],
+                  description: m["overview"],
+                  releaseDate: DateTime.parse((m["release_date"] != ""
+                          ? m["release_date"]
+                          : "1200-01-01")
+                      .replaceAll(RegExp('-'), '')),
+                )))
               });
         });
       }

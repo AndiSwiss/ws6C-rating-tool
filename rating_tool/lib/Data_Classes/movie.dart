@@ -17,12 +17,18 @@ class Movie {
   double suspense = 50;
   double wokeness = 50;
 
-  Movie({this.id, this.title, this.posterUrl, this.releaseDate, this.description}) {
-    if(this.posterUrl != null) {
+  Movie(
+      {this.id,
+      this.title,
+      this.posterUrl,
+      this.releaseDate,
+      this.description}) {
+    if (this.posterUrl != null) {
       this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
       this.poster = Image.network(posterUrl);
     }
     //Placeholder => should be cached offline => temporary
-    else this.poster = Image(image: AssetImage("assets/empty.png"));
+    else
+      this.poster = Image(image: AssetImage("assets/empty.png"));
   }
 }

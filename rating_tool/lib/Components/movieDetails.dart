@@ -10,12 +10,6 @@ class MovieDetails extends StatefulWidget {
 }
 
 class _MovieDetailsState extends State<MovieDetails> {
-  double valueSlider1 = 50;
-  double valueSlider2 = 50;
-  double valueSlider3 = 50;
-  double valueSlider4 = 50;
-  double valueSlider5 = 50;
-  double valueSlider6 = 50;
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +46,12 @@ class _MovieDetailsState extends State<MovieDetails> {
                             ),
                             Padding(
                               padding: const EdgeInsets.only(top: 8.0),
-                              child: Text(movie.description, softWrap: true, maxLines: 5, overflow: TextOverflow.ellipsis,),
+                              child: Text(
+                                movie.description,
+                                softWrap: true,
+                                maxLines: 5,
+                                overflow: TextOverflow.ellipsis,
+                              ),
                             )
                           ]),
                     ),
