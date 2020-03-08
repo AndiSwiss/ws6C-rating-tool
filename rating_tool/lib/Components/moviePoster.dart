@@ -15,7 +15,12 @@ class MoviePoster extends StatelessWidget {
         width: 342 / 2.5,
         child: GestureDetector(
           child: movie.posterUrl != null
-              ? movie.poster
+              ? Center(
+                child: FadeInImage.assetNetwork(
+                    placeholder: "assets/loading.gif",
+                    image: movie.posterUrl,
+                ),
+              )
               : Container(
                   color: Color.fromRGBO(45, 47, 49, 1),
                   child: Align(
