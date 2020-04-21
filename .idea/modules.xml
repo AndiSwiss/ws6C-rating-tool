@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/FHNW-ws6C-rating-tool.iml" filepath="$PROJECT_DIR$/.idea/FHNW-ws6C-rating-tool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ws6C-rating-tool.iml" filepath="$PROJECT_DIR$/.idea/ws6C-rating-tool.iml" />
     </modules>
   </component>
 </project>

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
 
 class MoviePoster extends StatelessWidget {
-  Movie movie;
+  final Movie movie;
 
   MoviePoster(this.movie);
 
@@ -11,8 +11,28 @@ class MoviePoster extends StatelessWidget {
     //Base URL for Images TMDB:
     //https://image.tmdb.org/t/p/w342   + /xBHvZcjRiWyobQ9kxBhO6B2dtRI.jpg
     return Container(
-        height: 513/2.5,
-        width: 342/2.5,
-        child: Image.network(movie.posterUrl));
+        height: 513 / 2.5,
+        width: 342 / 2.5,
+        child: GestureDetector(
+          child: movie.posterUrl != null
+              ? Center(
+                child: FadeInImage.assetNetwork(
+                    placeholder: "assets/loading.gif",
+                    image: movie.posterUrl,
+                ),
+              )
+              : Container(
+                  color: Color.fromRGBO(45, 47, 49, 1),
+                  child: Align(
+                      alignment: Alignment.center,
+                      child: Text(movie.title,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold)))),
+          onTap: () {
+            Navigator.of(context).pushNamed("/details", arguments: movie);
+          },
+        ));
   }
 }
