@@ -31,4 +31,53 @@ class Movie {
     else
       this.poster = Image(image: AssetImage("assets/empty.png"));
   }
+
+  // Named constructor for database-operation (needed by database_helper.dart),
+  // see also:
+  // https://grokonez.com/flutter/flutter-sqlite-example-crud-sqflite-example
+  Movie.map(dynamic obj) {
+    this.id = obj['id'];
+    this.title = obj['title'];
+    this.releaseDate = obj['releaseDate'];
+    this.description = obj['description'];
+    this.posterUrl = obj['posterUrl'];
+    if (this.posterUrl != null) {
+      this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
+      this.poster = Image.network(posterUrl);
+    }
+    // TODO: the same for 9 parameters like abstractness -> maybe combined in one string!)
+  }
+
+  // Named constructor for database-operation (needed by database_helper.dart),
+  // see also:
+  // https://grokonez.com/flutter/flutter-sqlite-example-crud-sqflite-example
+  Movie.fromMap(Map<String, dynamic> map) {
+    this.id = map['id'];
+    this.title = map['title'];
+    this.releaseDate = map['releaseDate'];
+    this.description = map['description'];
+    this.posterUrl = map['posterUrl'];
+    if (this.posterUrl != null) {
+      this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
+      this.poster = Image.network(posterUrl);
+    }
+    // TODO: the same for 9 parameters like abstractness -> maybe combined in one string!)
+  }
+
+  // For database-operation (needed by database_helper.dart), see also:
+  // https://grokonez.com/flutter/flutter-sqlite-example-crud-sqflite-example
+  Map<String, dynamic> toMap() {
+    var map = new Map<String, dynamic>();
+    map['id'] = id;
+    map['title'] = title;
+    map['releaseDate'] = releaseDate.toIso8601String();
+
+    // TODO: fix the following: 'description' and 'posterUrl':
+//    map['description'] = description;
+//    map['posterUrl'] = posterUrl;
+
+    // TODO: the same for 9 parameters like abstractness -> maybe combined in one string!)
+
+    return map;
+  }
 }
