@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 class MoviePoster extends StatelessWidget {
   final Movie movie;
 
   MoviePoster(this.movie);
+
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +18,14 @@ class MoviePoster extends StatelessWidget {
         child: GestureDetector(
           child: movie.posterUrl != null
               ? Center(
-                child: FadeInImage.assetNetwork(
-                    placeholder: "assets/loading.gif",
-                    image: movie.posterUrl,
+                child: CachedNetworkImage(
+                  placeholder: (context, url) =>
+                      CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(Colors.black54),
+                        strokeWidth: 4,
+                        //backgroundColor: Color.fromRGBO(230,230,230,1),
+                      ),
+                  imageUrl: movie.posterUrl,
                 ),
               )
               : Container(
