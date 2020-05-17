@@ -7,18 +7,38 @@ import 'package:rating_tool/Components/searchBar.dart';
 import 'Components/moviePoster.dart';
 import 'Data_Classes/movie.dart';
 import 'package:http/http.dart' as http;
+import 'Components/myColors.dart' as myColors;
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+//declare theme colors
+  static const MaterialColor customColor = MaterialColor(
+    0xFF573A60,
+    <int, Color>{
+      50: Color.fromRGBO(87, 58, 96, .1),
+      100: Color.fromRGBO(87, 58, 96, .2),
+      200: Color.fromRGBO(87, 58, 96, .3),
+      300: Color.fromRGBO(87, 58, 96, .4),
+      400: Color.fromRGBO(87, 58, 96, .5),
+      500: Color.fromRGBO(87, 58, 96, .6),
+      600: Color.fromRGBO(87, 58, 96, .7),
+      700: Color.fromRGBO(87, 58, 96, .8),
+      800: Color.fromRGBO(87, 58, 96, .9),
+      900: Color.fromRGBO(87, 58, 96, 1),
+    },
+  );
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Movie Rating Tool',
       theme: ThemeData(
-        primarySwatch: Colors.yellow,
+        primarySwatch: customColor,
       ),
       initialRoute: "/",
       routes: {
