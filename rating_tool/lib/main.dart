@@ -7,7 +7,6 @@ import 'package:rating_tool/Components/searchBar.dart';
 import 'Components/moviePoster.dart';
 import 'Data_Classes/movie.dart';
 import 'package:http/http.dart' as http;
-import 'Components/myColors.dart' as myColors;
 
 void main() => runApp(MyApp());
 
