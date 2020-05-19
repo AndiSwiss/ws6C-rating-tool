@@ -137,37 +137,76 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  //default = search
+  int _selectedIndex = 1;
+
+  void _onTap(int index){
+    setState(() {
+      _selectedIndex = index;
+    });
+    print("active index: "+_selectedIndex.toString());
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SearchBar(
-              onSubmit: (text) => {reset(text), getMovies()},
-            ),
-            Expanded(
-              child: Container(
-                child: SingleChildScrollView(
-                  controller: _controller,
-                  child: Column(
-                    children: <Widget>[
-                      Wrap(
+      body: Stack(
+        children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                SearchBar(
+                  onSubmit: (text) => {reset(text), getMovies()},
+                ),
+                Expanded(
+                  child: Container(
+                    child: SingleChildScrollView(
+                      controller: _controller,
+                      child: Column(
                         children: <Widget>[
-                          ...posters,
+                          Wrap(
+                            children: <Widget>[
+                              ...posters,
+                            ],
+                          ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star_border),
+            title: Text("Rating"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Text("Search"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            title: Text("Favorites"),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color.fromRGBO(149, 101, 164, 1),
+        selectedIconTheme: IconThemeData(size: 33),
+        iconSize: 24,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+        onTap: _onTap,
+        backgroundColor: Color.fromRGBO(42, 42, 42, 1),
       ),
     );
   }
