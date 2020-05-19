@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rating_tool/Components/movieDetails.dart';
 import 'package:rating_tool/Components/searchBar.dart';
 
@@ -151,7 +152,11 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text("Cinemate", style: GoogleFonts.rubik(
+          textStyle: TextStyle(color: Color.fromRGBO(249, 245, 227, 1), fontSize: 26, letterSpacing: 1, fontWeight: FontWeight.w400 )
+        )), //rubik, valer/Round, questrial
+        backgroundColor: Color.fromRGBO(42, 42, 42, 1),
+        centerTitle: true,
       ),
       body: Stack(
         children: <Widget>[
