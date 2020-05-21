@@ -75,7 +75,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
                                     Padding(
-                                      padding: const EdgeInsets.only(top: 8),
+                                      padding: const EdgeInsets.fromLTRB(5, 8, 5, 0),
                                       child: Text(
                                         movie.title,
                                         textAlign: TextAlign.center,
@@ -103,6 +103,25 @@ class _MovieDetailsState extends State<MovieDetails> {
                           ),
                         ]),
                       ),
+                         Align(
+                           alignment: Alignment(-0.90, -0.88),
+                           child: ClipRRect(
+                             borderRadius: BorderRadius.circular(40),
+                             child: Container(
+                               height: 36,
+                               width: 36,
+                               color: Colors.white.withOpacity(.8),
+                               child: IconButton(
+                                 icon: Icon(Icons.arrow_back),
+                                 color: Colors.black87,
+                                 iconSize: 20,
+                                 onPressed: () {
+                                   Navigator.of(context).pop();
+                                 },
+                               ),
+                             ),
+                           ),
+                         ),
                       DraggableScrollableSheet(
                         initialChildSize: 0.2,
                         minChildSize: 0.2,
@@ -139,7 +158,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     max: 100,
                                     min: 0,
                                     inactiveColor: Colors.white10,
-                                    activeColor: Colors.white70,
+                                    activeColor: Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   Text("Cinematography", style: TextStyle(color: Colors.white)),
                                   Slider(
@@ -150,7 +169,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     max: 100,
                                     min: 0,
                                     inactiveColor: Colors.white10,
-                                    activeColor: Colors.white70,
+                                    activeColor: Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   Text("Complexity", style: TextStyle(color: Colors.white)),
                                   Slider(
@@ -161,7 +180,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     max: 100,
                                     min: 0,
                                     inactiveColor: Colors.white10,
-                                    activeColor: Colors.white70,
+                                    activeColor: Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   Text("Darkness", style: TextStyle(color: Colors.white)),
                                   Slider(
@@ -172,7 +191,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     max: 100,
                                     min: 0,
                                     inactiveColor: Colors.white10,
-                                    activeColor: Colors.white70,
+                                    activeColor: Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   Text("Humor", style: TextStyle(color: Colors.white)),
                                   Slider(
@@ -183,7 +202,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     max: 100,
                                     min: 0,
                                     inactiveColor: Colors.white10,
-                                    activeColor: Colors.white70,
+                                    activeColor: Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   Text("Realism", style: TextStyle(color: Colors.white)),
                                   Slider(
@@ -194,7 +213,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     max: 100,
                                     min: 0,
                                     inactiveColor: Colors.white10,
-                                    activeColor: Colors.white70,
+                                    activeColor: Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   Text("Suspense", style: TextStyle(color: Colors.white)),
                                   Slider(
@@ -205,7 +224,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     max: 100,
                                     min: 0,
                                     inactiveColor: Colors.white10,
-                                    activeColor: Colors.white70,
+                                    activeColor: Color.fromRGBO(200, 200, 200, 1),
                                   ),
                                   Text("Wokeness", style: TextStyle(color: Colors.white)),
                                   Slider(
@@ -216,7 +235,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     max: 100,
                                     min: 0,
                                     inactiveColor: Colors.white10,
-                                    activeColor: Colors.white70,
+                                    activeColor: Color.fromRGBO(200, 200, 200, 1),
                                   )
                                 ],
                               ),
