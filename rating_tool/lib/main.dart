@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rating_tool/Components/movieDetails.dart';
 import 'package:rating_tool/Components/searchBar.dart';
 
@@ -12,13 +14,33 @@ void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
+//declare theme colors
+  static const MaterialColor customColor = MaterialColor(
+    0xFF573A60,
+    <int, Color>{
+      50: Color.fromRGBO(87, 58, 96, .1),
+      100: Color.fromRGBO(87, 58, 96, .2),
+      200: Color.fromRGBO(87, 58, 96, .3),
+      300: Color.fromRGBO(87, 58, 96, .4),
+      400: Color.fromRGBO(87, 58, 96, .5),
+      500: Color.fromRGBO(87, 58, 96, .6),
+      600: Color.fromRGBO(87, 58, 96, .7),
+      700: Color.fromRGBO(87, 58, 96, .8),
+      800: Color.fromRGBO(87, 58, 96, .9),
+      900: Color.fromRGBO(87, 58, 96, 1),
+    },
+  );
+
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Movie Rating Tool',
       theme: ThemeData(
-        primarySwatch: Colors.yellow,
+        primarySwatch: customColor,
+        primaryColor: customColor,
       ),
       initialRoute: "/",
       routes: {
@@ -65,12 +87,32 @@ class _MyHomePageState extends State<MyHomePage> {
         page++;
         getMovies();
       }
+
+      //check scrolling direction
+      if(_controller.position.userScrollDirection == ScrollDirection.reverse){
+        if(!isScrollingDown){
+          setState(() {
+            isScrollingDown = true;
+            _show = false;
+          });
+        }
+      }
+      if(_controller.position.userScrollDirection == ScrollDirection.forward){
+        if(isScrollingDown){
+          setState(() {
+            isScrollingDown = false;
+            _show = true;
+          });
+        }
+      }
+      
     });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _controller.removeListener(() { });
     super.dispose();
   }
 
@@ -118,37 +160,94 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  //default = search/home
+  int _selectedIndex = 1;
+
+  //change activeIndex
+  void _onTap(int index){
+    setState(() {
+      _selectedIndex = index;
+    });
+    print("active index: "+_selectedIndex.toString());
+  }
+
+  //show/hide appBar variables
+  bool _show = true;
+  bool isScrollingDown = false;
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
+      appBar: _show ? AppBar(
+        title: Text("Movie Rating Tool", style: GoogleFonts.rubik(
+            textStyle: TextStyle(color: Color.fromRGBO(249, 245, 227, 1), fontSize: 22, letterSpacing: 1, fontWeight: FontWeight.w400 )
+        )),
+        backgroundColor: Color.fromRGBO(42, 42, 42, 1),
+        centerTitle: true,
+        elevation: 0.0,
+      ) : PreferredSize(
+        child: Container(
+          color: Color.fromRGBO(42, 42, 42, 1),
+        ),
+        preferredSize: Size(0.0, 0.0),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SearchBar(
-              onSubmit: (text) => {reset(text), getMovies()},
-            ),
-            Expanded(
-              child: Container(
-                child: SingleChildScrollView(
-                  controller: _controller,
-                  child: Column(
-                    children: <Widget>[
-                      Wrap(
+      body: Stack(
+        children: <Widget>[
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: <Widget>[
+                Expanded(
+                  child: Container(
+                    child: SingleChildScrollView(
+                      controller: _controller,
+                      child: Column(
                         children: <Widget>[
-                          ...posters,
+                          _show ? SizedBox(height: 68) : SizedBox(height: 0),
+                          Wrap(
+                            children: <Widget>[
+                              ...posters,
+                            ],
+                          ),
                         ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
-        ),
+          ),
+          _show ? SearchBar(
+            onSubmit: (text) => {reset(text), getMovies()},
+          ) : SizedBox(),
+        ],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: const <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+            icon: Icon(Icons.star_border),
+            title: Text("Rating"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            title: Text("Search"),
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.favorite_border),
+            title: Text("Favorites"),
+          ),
+        ],
+        currentIndex: _selectedIndex,
+        selectedItemColor: Color.fromRGBO(149, 101, 164, 1),
+        selectedIconTheme: IconThemeData(size: 33),
+        iconSize: 24,
+        unselectedItemColor: Colors.grey,
+        showUnselectedLabels: false,
+        showSelectedLabels: false,
+        onTap: _onTap,
+        backgroundColor: Color.fromRGBO(42, 42, 42, 1),
       ),
     );
   }
