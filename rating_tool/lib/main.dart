@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rating_tool/Components/movieDetails.dart';
 import 'package:rating_tool/Components/searchBar.dart';
@@ -86,12 +87,34 @@ class _MyHomePageState extends State<MyHomePage> {
         page++;
         getMovies();
       }
+
+      //check scrolling direction
+      if(_controller.position.userScrollDirection == ScrollDirection.reverse){
+        if(!isScrollingDown){
+          setState(() {
+            isScrollingDown = true;
+            _show = false;
+          });
+        }
+      }
+      if(_controller.position.userScrollDirection == ScrollDirection.forward){
+        if(isScrollingDown){
+          setState(() {
+            isScrollingDown = false;
+            _show = true;
+          });
+        }
+      }
+
+      print(_show);
+
     });
   }
 
   @override
   void dispose() {
     _controller.dispose();
+    _controller.removeListener(() { });
     super.dispose();
   }
 
@@ -139,9 +162,10 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  //default = search
+  //default = search/home
   int _selectedIndex = 1;
 
+  //change activeIndex
   void _onTap(int index){
     setState(() {
       _selectedIndex = index;
@@ -149,16 +173,27 @@ class _MyHomePageState extends State<MyHomePage> {
     print("active index: "+_selectedIndex.toString());
   }
 
+  //show/hide appBar variables
+  bool _show = true;
+  bool isScrollingDown = false;
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      appBar: _show ? AppBar(
         title: Text("Movie Rating Tool", style: GoogleFonts.rubik(
-          textStyle: TextStyle(color: Color.fromRGBO(249, 245, 227, 1), fontSize: 26, letterSpacing: 1, fontWeight: FontWeight.w400 )
-        )), //rubik, valer/Round, questrial
+            textStyle: TextStyle(color: Color.fromRGBO(249, 245, 227, 1), fontSize: 22, letterSpacing: 1, fontWeight: FontWeight.w400 )
+        )),
         backgroundColor: Color.fromRGBO(42, 42, 42, 1),
         centerTitle: true,
         elevation: 0.0,
+      ) : PreferredSize(
+        child: Container(
+          color: Color.fromRGBO(42, 42, 42, 1),
+        ),
+        preferredSize: Size(0.0, 0.0),
       ),
       body: Stack(
         children: <Widget>[
@@ -172,6 +207,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       controller: _controller,
                       child: Column(
                         children: <Widget>[
+                          _show ? SizedBox(height: 68) : SizedBox(height: 0),
                           Wrap(
                             children: <Widget>[
                               ...posters,
@@ -185,9 +221,9 @@ class _MyHomePageState extends State<MyHomePage> {
               ],
             ),
           ),
-          SearchBar(
+          _show ? SearchBar(
             onSubmit: (text) => {reset(text), getMovies()},
-          ),
+          ) : SizedBox(),
         ],
       ),
       bottomNavigationBar: BottomNavigationBar(
