@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
       title: 'Movie Rating Tool',
       theme: ThemeData(
         primarySwatch: customColor,
+        primaryColor: customColor,
       ),
       initialRoute: "/",
       routes: {
@@ -152,11 +153,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Cinemate", style: GoogleFonts.rubik(
+        title: Text("Movie Rating Tool", style: GoogleFonts.rubik(
           textStyle: TextStyle(color: Color.fromRGBO(249, 245, 227, 1), fontSize: 26, letterSpacing: 1, fontWeight: FontWeight.w400 )
         )), //rubik, valer/Round, questrial
         backgroundColor: Color.fromRGBO(42, 42, 42, 1),
         centerTitle: true,
+        elevation: 0.0,
       ),
       body: Stack(
         children: <Widget>[
@@ -164,9 +166,6 @@ class _MyHomePageState extends State<MyHomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                SearchBar(
-                  onSubmit: (text) => {reset(text), getMovies()},
-                ),
                 Expanded(
                   child: Container(
                     child: SingleChildScrollView(
@@ -185,6 +184,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
               ],
             ),
+          ),
+          SearchBar(
+            onSubmit: (text) => {reset(text), getMovies()},
           ),
         ],
       ),
