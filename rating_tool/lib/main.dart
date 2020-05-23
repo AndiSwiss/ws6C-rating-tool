@@ -1,10 +1,14 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:rating_tool/Components/movieDetails.dart';
 import 'package:rating_tool/Components/searchBar.dart';
+import 'package:rating_tool/Views/FavoritesView.dart';
+import 'package:rating_tool/Views/RatingsView.dart';
+import 'package:rating_tool/Views/SearchView.dart';
 
 import 'Components/moviePoster.dart';
 import 'Data_Classes/movie.dart';
@@ -63,167 +67,66 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  Map<String, dynamic> apiResponse;
-  List<dynamic> results;
-  List<MoviePoster> posters = new List<MoviePoster>();
-  int page = 1;
-  ScrollController _controller;
-  String searchQuery = "";
-  bool loading = false;
+
+  //set searchView to default page
+  int bottomSelectedIndex = 1;
+
 
   void initState() {
     super.initState();
-    _controller = new ScrollController();
-    //reset("");
-    _controller.addListener(() {
-      //TODO Fix double loading of pages due to maxScrollExtend not being updated fast enough
-      //debugPrint(_controller.position.pixels.toString() + " -- " +  _controller.position.maxScrollExtent.toString());
-      //debugPrint((_controller.position.pixels >= _controller.position.maxScrollExtent - 100).toString());
-      //if ((_controller.position.atEdge) ) {
-      if (!loading &&
-          _controller.position.pixels >=
-              _controller.position.maxScrollExtent - 400) {
-        loading = true;
-        page++;
-        getMovies();
-      }
-
-      //check scrolling direction
-      if(_controller.position.userScrollDirection == ScrollDirection.reverse){
-        if(!isScrollingDown){
-          setState(() {
-            isScrollingDown = true;
-            _show = false;
-          });
-        }
-      }
-      if(_controller.position.userScrollDirection == ScrollDirection.forward){
-        if(isScrollingDown){
-          setState(() {
-            isScrollingDown = false;
-            _show = true;
-          });
-        }
-      }
-      
-    });
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-    _controller.removeListener(() { });
     super.dispose();
   }
 
-  void reset(String query) {
-    posters.clear();
-    searchQuery = query;
-    _controller.jumpTo(0);
-    page = 1;
-  }
+  PageController pageController = PageController(
+    initialPage: 1, //searchView as default page
+    keepPage: true,
+  );
 
-  /// Adds to the posters list.
-  /// Makes a HTTP GET request to get all movies matching the query.
-
-  void getMovies() async {
-    debugPrint(searchQuery);
-    debugPrint("Getting Movies...");
-    String url =
-        "https://api.themoviedb.org/3/search/movie?api_key=2a5e9e9ffe88a72d360c94f040190e21&query=$searchQuery&page=$page";
-    debugPrint(url);
-    final response = await http.get(url);
-    debugPrint("Fetch ok");
-    if (response.statusCode == 200) {
-      debugPrint("status ok");
-      apiResponse = json.decode(response.body);
-      if (apiResponse["total_pages"] >= page) {
-        results = apiResponse["results"];
-        //debugPrint(results.toString());
-        setState(() {
-          results.forEach((m) => {
-                //debugPrint(m["release_date"].toString()),
-                posters.add(new MoviePoster(Movie(
-                  title: m["title"],
-                  posterUrl: m["poster_path"],
-                  id: m["id"],
-                  description: m["overview"],
-                  releaseDate: DateTime.parse((m["release_date"] != ""
-                          ? m["release_date"]
-                          : "1200-01-01")
-                      .replaceAll(RegExp('-'), '')),
-                )))
-              });
-        });
-      }
-      loading = false;
-    }
-  }
-
-  //default = search/home
-  int _selectedIndex = 1;
-
-  //change activeIndex
-  void _onTap(int index){
+  void pageChanged(int index){
     setState(() {
-      _selectedIndex = index;
+      bottomSelectedIndex = index;
     });
-    print("active index: "+_selectedIndex.toString());
   }
 
-  //show/hide appBar variables
-  bool _show = true;
-  bool isScrollingDown = false;
+  void bottomTapped(index){
+    setState(() {
+      bottomSelectedIndex = index;
+      pageController.animateToPage(index, duration: Duration(microseconds: 500), curve: Curves.ease);
+    });
+  }
 
+  Widget buildPageView(){
+    return PageView(
+      controller: pageController,
+      onPageChanged: (index){
+        pageChanged(index);
+      },
+      children: <Widget>[
+        RatingsView(),
+        SearchView(),
+        FavoritesView(),
+      ],
+    );
+  }
 
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _show ? AppBar(
-        title: Text("Movie Rating Tool", style: GoogleFonts.rubik(
+      appBar: AppBar(
+        title: Text(widget.title, style: GoogleFonts.rubik(
             textStyle: TextStyle(color: Color.fromRGBO(249, 245, 227, 1), fontSize: 22, letterSpacing: 1, fontWeight: FontWeight.w400 )
         )),
         backgroundColor: Color.fromRGBO(42, 42, 42, 1),
         centerTitle: true,
         elevation: 0.0,
-      ) : PreferredSize(
-        child: Container(
-          color: Color.fromRGBO(42, 42, 42, 1),
-        ),
-        preferredSize: Size(0.0, 0.0),
       ),
-      body: Stack(
-        children: <Widget>[
-          Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                Expanded(
-                  child: Container(
-                    child: SingleChildScrollView(
-                      controller: _controller,
-                      child: Column(
-                        children: <Widget>[
-                          _show ? SizedBox(height: 68) : SizedBox(height: 0),
-                          Wrap(
-                            children: <Widget>[
-                              ...posters,
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          _show ? SearchBar(
-            onSubmit: (text) => {reset(text), getMovies()},
-          ) : SizedBox(),
-        ],
-      ),
+      body: buildPageView(),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -239,14 +142,16 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text("Favorites"),
           ),
         ],
-        currentIndex: _selectedIndex,
+        currentIndex: bottomSelectedIndex,
         selectedItemColor: Color.fromRGBO(149, 101, 164, 1),
         selectedIconTheme: IconThemeData(size: 33),
         iconSize: 24,
         unselectedItemColor: Colors.grey,
         showUnselectedLabels: false,
         showSelectedLabels: false,
-        onTap: _onTap,
+        onTap: (index){
+          bottomTapped(index);
+        },
         backgroundColor: Color.fromRGBO(42, 42, 42, 1),
       ),
     );
