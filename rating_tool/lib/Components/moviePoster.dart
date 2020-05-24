@@ -22,6 +22,7 @@ class MoviePoster extends StatelessWidget {
     double posterWidth  = (screenWidth/2);
     double posterHeight = posterWidth*1.5;
 
+
     return Container(
         height: posterHeight,
         width: posterWidth,
