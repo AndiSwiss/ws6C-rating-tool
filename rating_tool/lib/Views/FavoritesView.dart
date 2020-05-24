@@ -14,19 +14,12 @@ class FavoritesView extends StatefulWidget{
 
 class _FavoritesViewState extends State<FavoritesView>{
 
-  final Movie exampleMC = new Movie(
-    id: 1,
-    title: 'Das hässliche junge Entlein bla bla bla blaablaa',
-    posterUrl: 'https://image.tmdb.org/t/p/w600_and_h900_bestv2/gVOwl6Pswjg1VqqVrhmydL8nMyD.jpg',
-    description: "Animated short film based on Andersen's tale.",
-    releaseDate: DateTime.utc(1982, 7, 13),
-  );
+  //TODO: receive list of favorite movies from db
 
   final List<Movie> movies = new List();
 
   @override
   Widget build(BuildContext context) {
-    movies.add(exampleMC);
 
     return Container(
       color: Color.fromRGBO(200, 200, 200, 1),
@@ -39,19 +32,25 @@ class _FavoritesViewState extends State<FavoritesView>{
               setState(() {
                 print("deleted [$index]");
                 movies.removeAt(index);
+                //TODO: remove movie from db
               });
             },
             secondaryBackground: Container(
-              child: Center(
+              padding: EdgeInsets.only(right: 20),
+              child: Align(
+                alignment: Alignment.centerRight,
                 child: Text(
                   'Delete',
-                  style: TextStyle(color: Colors.white),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
                 ),
               ),
-              color: Colors.redAccent,
+              color: Color.fromRGBO(253, 104, 104, 1),
             ),
             background: Container(),
-            child: MovieCard(movies[0]),
+            child: MovieCard(movies[index]),
             key: UniqueKey(),
             direction: DismissDirection.endToStart,
           );
