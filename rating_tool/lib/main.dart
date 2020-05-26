@@ -9,6 +9,8 @@ import 'package:rating_tool/Components/searchBar.dart';
 import 'package:rating_tool/Views/FavoritesView.dart';
 import 'package:rating_tool/Views/RatingsView.dart';
 import 'package:rating_tool/Views/SearchView.dart';
+import 'package:rating_tool/Views/SplashScreen.dart';
+import 'package:rating_tool/Utils/FadeRoute.dart';
 
 import 'Components/moviePoster.dart';
 import 'Data_Classes/movie.dart';
@@ -46,11 +48,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: customColor,
         primaryColor: customColor,
       ),
-      initialRoute: "/",
+      home: SplashScreen(),
       routes: {
-        "/": (context) => MyHomePage(
-              title: "Movie Rating Tool",
-            ),
+        "/search": (context) => MyHomePage(),
         "/details": (context) => MovieDetails(),
       },
     );
@@ -58,9 +58,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key}) : super(key: key);
 
-  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -119,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: GoogleFonts.rubik(
+        title: Text("Movie Rating Tool", style: GoogleFonts.rubik(
             textStyle: TextStyle(color: Color.fromRGBO(249, 245, 227, 1), fontSize: 22, letterSpacing: 1, fontWeight: FontWeight.w400 )
         )),
         backgroundColor: Color.fromRGBO(42, 42, 42, 1),
