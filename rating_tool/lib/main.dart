@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -9,17 +7,14 @@ import 'package:rating_tool/Components/searchBar.dart';
 import 'package:rating_tool/Views/FavoritesView.dart';
 import 'package:rating_tool/Views/RatingsView.dart';
 import 'package:rating_tool/Views/SearchView.dart';
-
-import 'Components/moviePoster.dart';
-import 'Data_Classes/movie.dart';
-import 'package:http/http.dart' as http;
+import 'package:rating_tool/Views/SplashScreen.dart';
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
-//declare theme colors
+  //declare theme colors
   static const MaterialColor customColor = MaterialColor(
     0xFF573A60,
     <int, Color>{
@@ -46,11 +41,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: customColor,
         primaryColor: customColor,
       ),
-      initialRoute: "/",
+      home: SplashScreen(),
       routes: {
-        "/": (context) => MyHomePage(
-              title: "Movie Rating Tool",
-            ),
+        "/search": (context) => MyHomePage(),
         "/details": (context) => MovieDetails(),
       },
     );
@@ -58,9 +51,8 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key key}) : super(key: key);
 
-  final String title;
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -81,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  //pagecontroller for pageView
   PageController pageController = PageController(
     initialPage: 1, //searchView as default page
     keepPage: true,
@@ -114,12 +107,11 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title, style: GoogleFonts.rubik(
+        title: Text("Movie Rating Tool", style: GoogleFonts.rubik(
             textStyle: TextStyle(color: Color.fromRGBO(249, 245, 227, 1), fontSize: 22, letterSpacing: 1, fontWeight: FontWeight.w400 )
         )),
         backgroundColor: Color.fromRGBO(42, 42, 42, 1),
