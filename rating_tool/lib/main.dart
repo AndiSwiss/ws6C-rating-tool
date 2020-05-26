@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -10,18 +8,13 @@ import 'package:rating_tool/Views/FavoritesView.dart';
 import 'package:rating_tool/Views/RatingsView.dart';
 import 'package:rating_tool/Views/SearchView.dart';
 import 'package:rating_tool/Views/SplashScreen.dart';
-import 'package:rating_tool/Utils/FadeRoute.dart';
-
-import 'Components/moviePoster.dart';
-import 'Data_Classes/movie.dart';
-import 'package:http/http.dart' as http;
 
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
 
-//declare theme colors
+  //declare theme colors
   static const MaterialColor customColor = MaterialColor(
     0xFF573A60,
     <int, Color>{
@@ -80,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.dispose();
   }
 
+  //pagecontroller for pageView
   PageController pageController = PageController(
     initialPage: 1, //searchView as default page
     keepPage: true,
@@ -111,7 +105,6 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
   }
-
 
 
   @override
