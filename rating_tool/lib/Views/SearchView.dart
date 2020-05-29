@@ -95,9 +95,9 @@ class _SearchViewState extends State<SearchView> {
         setState(() {
           Future<Movie> movieInDb;
           results.forEach((m) => {
-            // TODO: Not yet working:
-            // NEW CODE: first checking, whether the movie is already in the db (you get a Future<Movie>!!).
-            // If so, load from db, else construct a new movie with the data fetched from the API
+                // TODO: Not yet working:
+                // NEW CODE: first checking, whether the movie is already in the db (you get a Future<Movie>!!).
+                // If so, load from db, else construct a new movie with the data fetched from the API
 //            movieInDb = dbHelper.getMovie(m["id"]),
 //            movieInDb.then((movie) => {
 //              if (movie != null) {

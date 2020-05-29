@@ -27,6 +27,8 @@ class DatabaseHelper {
   static final columnPoster = 'poster'; // Currently not yet used!
   static final columnRatings = 'ratings';
 
+  // TODO: add property:  bool favorite
+
   // --------- //
   // Singleton //
   // --------- //

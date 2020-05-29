@@ -20,6 +20,10 @@ class _MovieDetailsState extends State<MovieDetails> {
     Movie movie = ModalRoute.of(context).settings.arguments;
     final dbHelper = DatabaseHelper.instance;
 
+    void _searchMovieInDB() async {}
+    // TODO: create a FutureBuilder (according to "RatingsView")
+    //  if snapshot.is...  then get from db, else leave it and use the passed in movie
+
     /// Adds or updates a rated movie in the db
     void _addOrUpdateMovieInDb() async {
       // First, try to insert the movie:
