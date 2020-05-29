@@ -83,7 +83,6 @@ class Movie {
     this.description = map['description'];
     this.posterUrl = map['posterUrl'];
     if (this.posterUrl != null) {
-      this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
       this.poster = Image.network(posterUrl);
     }
     // For the 9 rating-parameters like abstractness, ...:
@@ -135,6 +134,18 @@ class Movie {
 //    } catch (e) {
 //      print('ERROR: ${e.toString()}');
 //    }
+  }
+
+  bool isRated() {
+    return abstractness != 50 ||
+        cinematography != 50 ||
+        romanticness != 50 ||
+        complexity != 50 ||
+        darkness != 50 ||
+        humor != 50 ||
+        realism != 50 ||
+        suspense != 50 ||
+        wokeness != 50;
   }
 
   /// For testing purposes, with some shortened strings

@@ -27,6 +27,8 @@ class DatabaseHelper {
   static final columnPoster = 'poster'; // Currently not yet used!
   static final columnRatings = 'ratings';
 
+  // TODO: add property:  bool favorite
+
   // --------- //
   // Singleton //
   // --------- //
@@ -68,7 +70,7 @@ class DatabaseHelper {
             $columnDescription TEXT,
             $columnPosterUrl TEXT,
             $columnPoster BLOB,
-            $columnRatings TEXT,
+            $columnRatings TEXT
           )
           ''');
   }
@@ -99,12 +101,11 @@ class DatabaseHelper {
     // First check, whether the movie already exists:
     final Movie existingMovie = await getMovie(movie.id);
     if (existingMovie != null) {
-      print('Movie ${movie.id} already existed in the db and thus was '
-          'not added.');
+//      print('Movie ${movie.id} already existed in the db and thus was '
+//          'not added.');
       return -1;
     } else {
       int answer = await db.insert(table, movie.toMap());
-      print('Movie ${movie.id} inserted in the db.');
       return answer;
     }
   }
