@@ -7,6 +7,7 @@ import 'package:rating_tool/Components/moviePoster.dart';
 import 'package:rating_tool/Components/searchBar.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
 import 'package:http/http.dart' as http;
+import 'package:rating_tool/Database/database_helper.dart';
 
 class SearchView extends StatefulWidget {
   final String title;
@@ -25,6 +26,7 @@ class _SearchViewState extends State<SearchView> {
   bool loading = false;
 
   ScrollController _controller;
+  final dbHelper = DatabaseHelper.instance;
 
   void initState() {
     super.initState();
@@ -91,12 +93,32 @@ class _SearchViewState extends State<SearchView> {
         results = apiResponse["results"];
         //debugPrint(results.toString());
         setState(() {
+          Future<Movie> movieInDb;
           results.forEach((m) => {
-                //debugPrint(m["release_date"].toString()),
-
-                // TODO: first: check, if the movie with the given m["id"] is already in either "rated" or "favorite" list in the db -> if so: load it from the database!
-                //  Else: you can create a new Movie (already implemented)
-
+            // TODO: Not yet working:
+            // NEW CODE: first checking, whether the movie is already in the db (you get a Future<Movie>!!).
+            // If so, load from db, else construct a new movie with the data fetched from the API
+//            movieInDb = dbHelper.getMovie(m["id"]),
+//            movieInDb.then((movie) => {
+//              if (movie != null) {
+//                debugPrint("Fetching ${movie.title} from Db... "),
+//                posters.add(MoviePoster(movie))
+//              } else {
+//                debugPrint("loading ${m["title"]} for 1st time ... "),
+//                posters.add(new MoviePoster(Movie(
+//                  title: m["title"],
+//                  posterUrl: m["poster_path"],
+//                  id: m["id"],
+//                  description: m["overview"],
+//                  releaseDate: DateTime.parse((m["release_date"] != ""
+//                      ? m["release_date"]
+//                      : "1200-01-01")
+//                      .replaceAll(RegExp('-'), '')),
+//                )))
+//              },
+//            }),
+                // OLD CODE: construct a new movie with the data fetched from the API,
+                // regardless of whether it is already in the db
                 posters.add(new MoviePoster(Movie(
                   title: m["title"],
                   posterUrl: m["poster_path"],

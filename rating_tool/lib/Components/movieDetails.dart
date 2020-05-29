@@ -25,15 +25,17 @@ class _MovieDetailsState extends State<MovieDetails> {
       // First, try to insert the movie:
       final inserted = await dbHelper.insert(movie);
       if (inserted != -1) {
-        print("Movie ${movie.id} - '${movie.title}' was inserted in to db.");
+        debugPrint(
+            "Movie ${movie.id} - '${movie.title}' was inserted in to db.");
       }
       // If already present, update the movie:
       else {
         final updated = await dbHelper.update(movie);
         if (updated == 1) {
-          print("Movie ${movie.id} - ${movie.title} was updated in the db.");
+          debugPrint(
+              "Movie ${movie.id} - ${movie.title} was updated in the db.");
         } else {
-          print(
+          debugPrint(
               "Shouldn't have happened: When trying to update the movie ${movie.title} "
               "with movie.id ${movie.id}, the return-value of 'updated' was $updated "
               "(should have been 1)!");
