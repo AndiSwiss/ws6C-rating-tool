@@ -20,9 +20,10 @@ class _MovieDetailsState extends State<MovieDetails> {
     Movie movie = ModalRoute.of(context).settings.arguments;
     final dbHelper = DatabaseHelper.instance;
 
-    void _searchMovieInDB() async {}
-    // TODO: create a FutureBuilder (according to "RatingsView")
-    //  if snapshot.is...  then get from db, else leave it and use the passed in movie
+    /// Searches a movie in the db -- is then used in the FutureBuilder
+    Future<Movie> _searchMovieInDB() async {
+      return await dbHelper.getMovie(movie.id);
+    }
 
     /// Adds or updates a rated movie in the db
     void _addOrUpdateMovieInDb() async {
@@ -48,261 +49,301 @@ class _MovieDetailsState extends State<MovieDetails> {
     }
 
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            image: DecorationImage(
-          image: new NetworkImage(movie.posterUrl),
-          fit: BoxFit.fill,
-        )),
-        //background image blur effect
-        child: BackdropFilter(
-          filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-          child: Container(
-              color: Colors.black.withOpacity(.69),
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                  child: Stack(
-                    children: <Widget>[
-                      Container(
-                        child: Column(children: <Widget>[
-                          SizedBox(height: 100),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: <Widget>[
-                              Container(
-                                width: MediaQuery.of(context).size.width / 3,
-                              ),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: Container(
-                                  width: MediaQuery.of(context).size.width / 3,
-                                  child: movie.poster,
-                                ),
-                              ),
-                              Container(
-                                width:
-                                    MediaQuery.of(context).size.width / 3 - 20,
-                                child: Align(
-                                  alignment: Alignment.center,
-                                  child: IconButton(
-                                    icon: Icon(
-                                      Icons.favorite_border,
-                                      color: Color.fromRGBO(253, 104, 104, 1),
-                                      size: 40,
-                                    ),
-                                    onPressed: () {
-                                      // TODO: write here the action for adding the movie to the favorites lists in the db
-                                    },
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Container(
-                            child: Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 0.0),
-                              child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
+      body: FutureBuilder(
+        future: _searchMovieInDB(),
+        builder: (context, snapshot) {
+          // If the movie is already in the the database, overwrite the 'movie'
+          // with data from the database:
+          if (snapshot.hasData) {
+            movie = snapshot.data;
+          }
+
+          if (snapshot.connectionState == ConnectionState.done) {
+            return Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                image: new NetworkImage(movie.posterUrl),
+                fit: BoxFit.fill,
+              )),
+              //background image blur effect
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                child: Container(
+                    color: Colors.black.withOpacity(.69),
+                    child: Padding(
+                        padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              child: Column(children: <Widget>[
+                                SizedBox(height: 100),
+                                Row(
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: <Widget>[
-                                    Padding(
-                                      padding:
-                                          const EdgeInsets.fromLTRB(5, 8, 5, 0),
-                                      child: Text(
-                                        movie.title,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 32,
-                                          color:
-                                              Color.fromRGBO(249, 245, 227, 1),
+                                    Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 3,
+                                    ),
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.circular(12),
+                                      child: Container(
+                                        width:
+                                            MediaQuery.of(context).size.width /
+                                                3,
+                                        child: movie.poster,
+                                      ),
+                                    ),
+                                    Container(
+                                      width: MediaQuery.of(context).size.width /
+                                              3 -
+                                          20,
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: IconButton(
+                                          icon: Icon(
+                                            Icons.favorite_border,
+                                            color: Color.fromRGBO(
+                                                253, 104, 104, 1),
+                                            size: 40,
+                                          ),
+                                          onPressed: () {
+                                            // TODO: write here the action for adding the movie to the favorites lists in the db
+                                          },
                                         ),
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          12, 14, 12, 8),
-                                      child: Text(
-                                        movie.description,
-                                        textAlign: TextAlign.center,
-                                        softWrap: true,
-                                        maxLines: 6,
-                                        overflow: TextOverflow.ellipsis,
-                                        style: TextStyle(color: Colors.white),
-                                      ),
-                                    ),
-                                  ]),
+                                  ],
+                                ),
+                                Container(
+                                  child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 0.0),
+                                    child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: <Widget>[
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                5, 8, 5, 0),
+                                            child: Text(
+                                              movie.title,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 32,
+                                                color: Color.fromRGBO(
+                                                    249, 245, 227, 1),
+                                              ),
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                12, 14, 12, 8),
+                                            child: Text(
+                                              movie.description,
+                                              textAlign: TextAlign.center,
+                                              softWrap: true,
+                                              maxLines: 6,
+                                              overflow: TextOverflow.ellipsis,
+                                              style: TextStyle(
+                                                  color: Colors.white),
+                                            ),
+                                          ),
+                                        ]),
+                                  ),
+                                ),
+                              ]),
                             ),
-                          ),
-                        ]),
-                      ),
-                      Align(
-                        alignment: Alignment(-0.90, -0.88),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(40),
-                          child: Container(
-                            height: 36,
-                            width: 36,
-                            color: Colors.white.withOpacity(.8),
-                            child: IconButton(
-                              icon: Icon(Icons.arrow_back),
-                              color: Colors.black87,
-                              iconSize: 20,
-                              onPressed: () {
-                                if (movie.isRated()) {
-                                  _addOrUpdateMovieInDb();
-                                }
-                                Navigator.of(context).pop();
+                            Align(
+                              alignment: Alignment(-0.90, -0.88),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(40),
+                                child: Container(
+                                  height: 36,
+                                  width: 36,
+                                  color: Colors.white.withOpacity(.8),
+                                  child: IconButton(
+                                    icon: Icon(Icons.arrow_back),
+                                    color: Colors.black87,
+                                    iconSize: 20,
+                                    onPressed: () {
+                                      if (movie.isRated()) {
+                                        _addOrUpdateMovieInDb();
+                                      }
+                                      Navigator.of(context).pop();
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            DraggableScrollableSheet(
+                              initialChildSize: 0.2,
+                              minChildSize: 0.2,
+                              maxChildSize: 1.0,
+                              expand: true,
+                              builder: (context, scrollController) {
+                                return SingleChildScrollView(
+                                  controller: scrollController,
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    padding: EdgeInsets.symmetric(vertical: 24),
+                                    constraints: BoxConstraints(
+                                      minHeight:
+                                          MediaQuery.of(context).size.height,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.only(
+                                          topLeft: Radius.circular(20),
+                                          topRight: Radius.circular(20)),
+                                      color: Color.fromRGBO(35, 35, 35, 1),
+                                    ),
+                                    child: Column(
+                                      children: <Widget>[
+                                        ImageIcon(
+                                          AssetImage("assets/rating.png"),
+                                          color: Color.fromRGBO(87, 58, 96, 1),
+                                          size: 40,
+                                          semanticLabel: "Rating",
+                                        ),
+                                        SizedBox(height: 30),
+                                        Text("Abstractness",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Slider(
+                                          onChanged: (double value) {
+                                            setState(() => {
+                                                  movie.abstractness = value,
+                                                  debugPrint(
+                                                      "new Abstractness: ${movie.abstractness}"),
+                                                });
+                                          },
+                                          value: movie.abstractness,
+                                          max: 100,
+                                          min: 0,
+                                          inactiveColor: Colors.white10,
+                                          activeColor:
+                                              Color.fromRGBO(200, 200, 200, 1),
+                                        ),
+                                        Text("Cinematography",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Slider(
+                                          onChanged: (double value) {
+                                            setState(() =>
+                                                movie.cinematography = value);
+                                          },
+                                          value: movie.cinematography,
+                                          max: 100,
+                                          min: 0,
+                                          inactiveColor: Colors.white10,
+                                          activeColor:
+                                              Color.fromRGBO(200, 200, 200, 1),
+                                        ),
+                                        Text("Complexity",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Slider(
+                                          onChanged: (double value) {
+                                            setState(
+                                                () => movie.complexity = value);
+                                          },
+                                          value: movie.complexity,
+                                          max: 100,
+                                          min: 0,
+                                          inactiveColor: Colors.white10,
+                                          activeColor:
+                                              Color.fromRGBO(200, 200, 200, 1),
+                                        ),
+                                        Text("Darkness",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Slider(
+                                          onChanged: (double value) {
+                                            setState(
+                                                () => movie.darkness = value);
+                                          },
+                                          value: movie.darkness,
+                                          max: 100,
+                                          min: 0,
+                                          inactiveColor: Colors.white10,
+                                          activeColor:
+                                              Color.fromRGBO(200, 200, 200, 1),
+                                        ),
+                                        Text("Humor",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Slider(
+                                          onChanged: (double value) {
+                                            setState(() => movie.humor = value);
+                                          },
+                                          value: movie.humor,
+                                          max: 100,
+                                          min: 0,
+                                          inactiveColor: Colors.white10,
+                                          activeColor:
+                                              Color.fromRGBO(200, 200, 200, 1),
+                                        ),
+                                        Text("Realism",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Slider(
+                                          onChanged: (double value) {
+                                            setState(
+                                                () => movie.realism = value);
+                                          },
+                                          value: movie.realism,
+                                          max: 100,
+                                          min: 0,
+                                          inactiveColor: Colors.white10,
+                                          activeColor:
+                                              Color.fromRGBO(200, 200, 200, 1),
+                                        ),
+                                        Text("Suspense",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Slider(
+                                          onChanged: (double value) {
+                                            setState(
+                                                () => movie.suspense = value);
+                                          },
+                                          value: movie.suspense,
+                                          max: 100,
+                                          min: 0,
+                                          inactiveColor: Colors.white10,
+                                          activeColor:
+                                              Color.fromRGBO(200, 200, 200, 1),
+                                        ),
+                                        Text("Wokeness",
+                                            style:
+                                                TextStyle(color: Colors.white)),
+                                        Slider(
+                                          onChanged: (double value) {
+                                            setState(
+                                                () => movie.wokeness = value);
+                                          },
+                                          value: movie.wokeness,
+                                          max: 100,
+                                          min: 0,
+                                          inactiveColor: Colors.white10,
+                                          activeColor:
+                                              Color.fromRGBO(200, 200, 200, 1),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
                               },
                             ),
-                          ),
-                        ),
-                      ),
-                      DraggableScrollableSheet(
-                        initialChildSize: 0.2,
-                        minChildSize: 0.2,
-                        maxChildSize: 1.0,
-                        expand: true,
-                        builder: (context, scrollController) {
-                          return SingleChildScrollView(
-                            controller: scrollController,
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              padding: EdgeInsets.symmetric(vertical: 24),
-                              constraints: BoxConstraints(
-                                minHeight: MediaQuery.of(context).size.height,
-                              ),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    topLeft: Radius.circular(20),
-                                    topRight: Radius.circular(20)),
-                                color: Color.fromRGBO(35, 35, 35, 1),
-                              ),
-                              child: Column(
-                                children: <Widget>[
-                                  ImageIcon(
-                                    AssetImage("assets/rating.png"),
-                                    color: Color.fromRGBO(87, 58, 96, 1),
-                                    size: 40,
-                                    semanticLabel: "Rating",
-                                  ),
-                                  SizedBox(height: 30),
-                                  Text("Abstractness",
-                                      style: TextStyle(color: Colors.white)),
-                                  Slider(
-                                    onChanged: (double value) {
-                                      setState(
-                                          () => movie.abstractness = value);
-                                    },
-                                    value: movie.abstractness,
-                                    max: 100,
-                                    min: 0,
-                                    inactiveColor: Colors.white10,
-                                    activeColor:
-                                        Color.fromRGBO(200, 200, 200, 1),
-                                  ),
-                                  Text("Cinematography",
-                                      style: TextStyle(color: Colors.white)),
-                                  Slider(
-                                    onChanged: (double value) {
-                                      setState(
-                                          () => movie.cinematography = value);
-                                    },
-                                    value: movie.cinematography,
-                                    max: 100,
-                                    min: 0,
-                                    inactiveColor: Colors.white10,
-                                    activeColor:
-                                        Color.fromRGBO(200, 200, 200, 1),
-                                  ),
-                                  Text("Complexity",
-                                      style: TextStyle(color: Colors.white)),
-                                  Slider(
-                                    onChanged: (double value) {
-                                      setState(() => movie.complexity = value);
-                                    },
-                                    value: movie.complexity,
-                                    max: 100,
-                                    min: 0,
-                                    inactiveColor: Colors.white10,
-                                    activeColor:
-                                        Color.fromRGBO(200, 200, 200, 1),
-                                  ),
-                                  Text("Darkness",
-                                      style: TextStyle(color: Colors.white)),
-                                  Slider(
-                                    onChanged: (double value) {
-                                      setState(() => movie.darkness = value);
-                                    },
-                                    value: movie.darkness,
-                                    max: 100,
-                                    min: 0,
-                                    inactiveColor: Colors.white10,
-                                    activeColor:
-                                        Color.fromRGBO(200, 200, 200, 1),
-                                  ),
-                                  Text("Humor",
-                                      style: TextStyle(color: Colors.white)),
-                                  Slider(
-                                    onChanged: (double value) {
-                                      setState(() => movie.humor = value);
-                                    },
-                                    value: movie.humor,
-                                    max: 100,
-                                    min: 0,
-                                    inactiveColor: Colors.white10,
-                                    activeColor:
-                                        Color.fromRGBO(200, 200, 200, 1),
-                                  ),
-                                  Text("Realism",
-                                      style: TextStyle(color: Colors.white)),
-                                  Slider(
-                                    onChanged: (double value) {
-                                      setState(() => movie.realism = value);
-                                    },
-                                    value: movie.realism,
-                                    max: 100,
-                                    min: 0,
-                                    inactiveColor: Colors.white10,
-                                    activeColor:
-                                        Color.fromRGBO(200, 200, 200, 1),
-                                  ),
-                                  Text("Suspense",
-                                      style: TextStyle(color: Colors.white)),
-                                  Slider(
-                                    onChanged: (double value) {
-                                      setState(() => movie.suspense = value);
-                                    },
-                                    value: movie.suspense,
-                                    max: 100,
-                                    min: 0,
-                                    inactiveColor: Colors.white10,
-                                    activeColor:
-                                        Color.fromRGBO(200, 200, 200, 1),
-                                  ),
-                                  Text("Wokeness",
-                                      style: TextStyle(color: Colors.white)),
-                                  Slider(
-                                    onChanged: (double value) {
-                                      setState(() => movie.wokeness = value);
-                                    },
-                                    value: movie.wokeness,
-                                    max: 100,
-                                    min: 0,
-                                    inactiveColor: Colors.white10,
-                                    activeColor:
-                                        Color.fromRGBO(200, 200, 200, 1),
-                                  )
-                                ],
-                              ),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ))),
-        ),
+                          ],
+                        ))),
+              ),
+            );
+          } else {
+            return CircularProgressIndicator();
+          }
+        },
       ),
     );
   }

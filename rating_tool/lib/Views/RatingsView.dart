@@ -15,13 +15,11 @@ class RatingsView extends StatefulWidget {
 class _RatingsViewState extends State<RatingsView> {
   final dbHelper = DatabaseHelper.instance;
 
-  //TODO: receive list of rated movies from db
+  /// Receives list of rated movies from db -- is then used in the FutureBuilder
   Future<List<Movie>> _getListOfRatedMoviesFromDb() async {
     var moviesFromDb = await dbHelper.getAllMovies();
-    debugPrint("${moviesFromDb.length}");
 
-    // TODO: Filter only already rated movies (not favorited)
-
+    // TODO: Filter ONLY already rated movies
     return moviesFromDb;
   }
 

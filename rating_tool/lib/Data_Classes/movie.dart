@@ -83,7 +83,16 @@ class Movie {
     this.description = map['description'];
     this.posterUrl = map['posterUrl'];
     if (this.posterUrl != null) {
-      this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
+//      this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
+      // TODO: Temporary db-fix:
+      if (this.posterUrl.contains(
+          "https://image.tmdb.org/t/p/w342https://image.tmdb.org/t/p/w342")) {
+        this.posterUrl.replaceFirst(
+            "https://image.tmdb.org/t/p/w342https://image.tmdb.org/t/p/w342",
+            "https://image.tmdb.org/t/p/w342");
+        debugPrint("fixing posterUrl to: ${this.posterUrl}");
+      }
+
       this.poster = Image.network(posterUrl);
     }
     // For the 9 rating-parameters like abstractness, ...:
