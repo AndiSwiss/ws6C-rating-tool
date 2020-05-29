@@ -1,3 +1,4 @@
+
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -7,9 +8,8 @@ import 'package:rating_tool/Components/moviePoster.dart';
 import 'package:rating_tool/Components/searchBar.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
 import 'package:http/http.dart' as http;
-import 'package:rating_tool/Database/database_helper.dart';
 
-class SearchView extends StatefulWidget {
+class SearchView extends StatefulWidget{
   final String title;
   SearchView({this.title = "Movie Rating Tool"});
 
@@ -17,7 +17,7 @@ class SearchView extends StatefulWidget {
   _SearchViewState createState() => _SearchViewState();
 }
 
-class _SearchViewState extends State<SearchView> {
+class _SearchViewState extends State<SearchView>{
   Map<String, dynamic> apiResponse;
   List<dynamic> results;
   List<MoviePoster> posters = new List<MoviePoster>();
@@ -26,9 +26,9 @@ class _SearchViewState extends State<SearchView> {
   bool loading = false;
 
   ScrollController _controller;
-  final dbHelper = DatabaseHelper.instance;
 
-  void initState() {
+
+  void initState(){
     super.initState();
     _controller = new ScrollController();
     //reset("");
@@ -46,28 +46,30 @@ class _SearchViewState extends State<SearchView> {
       }
 
       //check scrolling direction
-      if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
-        if (!isScrollingDown) {
+      if(_controller.position.userScrollDirection == ScrollDirection.reverse){
+        if(!isScrollingDown){
           setState(() {
             isScrollingDown = true;
             _show = false;
           });
         }
       }
-      if (_controller.position.userScrollDirection == ScrollDirection.forward) {
-        if (isScrollingDown) {
+      if(_controller.position.userScrollDirection == ScrollDirection.forward){
+        if(isScrollingDown){
           setState(() {
             isScrollingDown = false;
             _show = true;
           });
         }
       }
+
     });
+
   }
 
   @override
   void dispose() {
-    _controller.removeListener(() {});
+    _controller.removeListener(() { });
     super.dispose();
   }
 
@@ -93,63 +95,41 @@ class _SearchViewState extends State<SearchView> {
         results = apiResponse["results"];
         //debugPrint(results.toString());
         setState(() {
-          Future<Movie> movieInDb;
           results.forEach((m) => {
-                // TODO: Not yet working:
-                // NEW CODE: first checking, whether the movie is already in the db (you get a Future<Movie>!!).
-                // If so, load from db, else construct a new movie with the data fetched from the API
-//            movieInDb = dbHelper.getMovie(m["id"]),
-//            movieInDb.then((movie) => {
-//              if (movie != null) {
-//                debugPrint("Fetching ${movie.title} from Db... "),
-//                posters.add(MoviePoster(movie))
-//              } else {
-//                debugPrint("loading ${m["title"]} for 1st time ... "),
-//                posters.add(new MoviePoster(Movie(
-//                  title: m["title"],
-//                  posterUrl: m["poster_path"],
-//                  id: m["id"],
-//                  description: m["overview"],
-//                  releaseDate: DateTime.parse((m["release_date"] != ""
-//                      ? m["release_date"]
-//                      : "1200-01-01")
-//                      .replaceAll(RegExp('-'), '')),
-//                )))
-//              },
-//            }),
-                // OLD CODE: construct a new movie with the data fetched from the API,
-                // regardless of whether it is already in the db
-                posters.add(new MoviePoster(Movie(
-                  title: m["title"],
-                  posterUrl: m["poster_path"],
-                  id: m["id"],
-                  description: m["overview"],
-                  releaseDate: DateTime.parse((m["release_date"] != ""
-                          ? m["release_date"]
-                          : "1200-01-01")
-                      .replaceAll(RegExp('-'), '')),
-                )))
-              });
+            //debugPrint(m["release_date"].toString()),
+            posters.add(new MoviePoster(Movie(
+              title: m["title"],
+              posterUrl: m["poster_path"],
+              id: m["id"],
+              description: m["overview"],
+              releaseDate: DateTime.parse((m["release_date"] != ""
+                  ? m["release_date"]
+                  : "1200-01-01")
+                  .replaceAll(RegExp('-'), '')),
+            )))
+          });
         });
       }
       loading = false;
     }
   }
 
+
   //default = search/home
   int _selectedIndex = 1;
 
   //change activeIndex
-  void _onTap(int index) {
+  void _onTap(int index){
     setState(() {
       _selectedIndex = index;
     });
-    print("active index: " + _selectedIndex.toString());
+    print("active index: "+_selectedIndex.toString());
   }
 
   //show/hide appBar variables
   bool _show = true;
   bool isScrollingDown = false;
+
 
   @override
   Widget build(BuildContext context) {
@@ -179,12 +159,11 @@ class _SearchViewState extends State<SearchView> {
             ],
           ),
         ),
-        _show
-            ? SearchBar(
-                onSubmit: (text) => {reset(text), getMovies()},
-              )
-            : SizedBox(),
+        _show ? SearchBar(
+          onSubmit: (text) => {reset(text), getMovies()},
+        ) : SizedBox(),
       ],
     );
   }
+
 }
