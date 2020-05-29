@@ -20,6 +20,24 @@
       <excludeFolder url="file://$MODULE_DIR$/rating_tool/.dart_tool" />
       <excludeFolder url="file://$MODULE_DIR$/rating_tool/.pub" />
       <excludeFolder url="file://$MODULE_DIR$/rating_tool/build" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider/build" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider_macos/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider_macos/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider_macos/build" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider_macos/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider_macos/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/path_provider_macos/example/build" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/sqflite/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/sqflite/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/sqflite/build" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/sqflite/example/.dart_tool" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/sqflite/example/.pub" />
+      <excludeFolder url="file://$MODULE_DIR$/rating_tool/ios/.symlinks/plugins/sqflite/example/build" />
     </content>
     <orderEntry type="jdk" jdkName="Android API 29 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
