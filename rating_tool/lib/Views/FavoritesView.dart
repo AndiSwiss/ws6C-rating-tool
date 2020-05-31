@@ -28,9 +28,11 @@ class _FavoritesViewState extends State<FavoritesView> {
     return FutureBuilder(
         future: _getListOfFavoredMoviesFromDb(),
         builder: (context, snapshot) {
+          List<Movie> movies;
           if (snapshot.hasData) {
-            List<Movie> movies = snapshot.data;
-
+            movies = snapshot.data;
+          }
+          if (movies != null && movies.isNotEmpty) {
             return Container(
               color: Color.fromRGBO(200, 200, 200, 1),
               child: ListView.builder(

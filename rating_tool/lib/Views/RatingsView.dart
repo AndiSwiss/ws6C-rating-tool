@@ -28,9 +28,11 @@ class _RatingsViewState extends State<RatingsView> {
     return FutureBuilder(
         future: _getListOfRatedMoviesFromDb(),
         builder: (context, snapshot) {
+          List<Movie> movies;
           if (snapshot.hasData) {
-            List<Movie> movies = snapshot.data;
-
+            movies = snapshot.data;
+          }
+          if (movies != null && movies.isNotEmpty) {
             return Container(
               color: Color.fromRGBO(200, 200, 200, 1),
               child: ListView.builder(
