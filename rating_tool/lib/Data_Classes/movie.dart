@@ -68,8 +68,8 @@ class Movie {
 
     // Since the database does not provide boolean type, I have to use integer:
     // 1 = true, 0 = false
-    // Conversion from Integer to boolean (note: the map returns a string!):
-    this.favorite = obj['favorite'] == '1';
+    // Conversion from Integer to boolean:
+    this.favorite = obj['favorite'] == 1;
   }
 
   /// Named constructor for database-operation (needed by database_helper.dart),
@@ -96,8 +96,8 @@ class Movie {
 
     // Since the database does not provide boolean type, I have to use integer:
     // 1 = true, 0 = false
-    // Conversion from Integer to boolean (note: the map returns a string!):
-    this.favorite = map['favorite'] == '1';
+    // Conversion from Integer to boolean:
+    this.favorite = map['favorite'] == 1;
   }
 
   /// For database-operation (needed by database_helper.dart), see also:

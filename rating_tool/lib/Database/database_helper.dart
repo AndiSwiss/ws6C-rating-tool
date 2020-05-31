@@ -88,7 +88,7 @@ class DatabaseHelper {
           "'$columnRatings'");
     }
     if (oldVersion == 1 || oldVersion == 2) {
-      await db.execute('ALTER TABLE $table ADD $columnFavorite TEXT');
+      await db.execute('ALTER TABLE $table ADD $columnFavorite INTEGER');
       print("Database upgraded from version 2 to version 3, added column "
           "'$columnFavorite'");
     }
