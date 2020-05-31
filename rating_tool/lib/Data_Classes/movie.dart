@@ -16,6 +16,7 @@ class Movie {
   double realism = 50;
   double suspense = 50;
   double wokeness = 50;
+  bool favorite = false;
 
   /// Basic constructor
   Movie(
@@ -23,7 +24,8 @@ class Movie {
       this.title,
       this.posterUrl,
       this.releaseDate,
-      this.description}) {
+      this.description,
+      this.favorite = false}) {
     if (this.posterUrl != null) {
       this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
       this.poster = Image.network(posterUrl);
@@ -63,6 +65,11 @@ class Movie {
     }
     // For the 9 rating-parameters like abstractness, ...:
     _convertStringToRatings(obj['ratings']);
+
+    // Since the database does not provide boolean type, I have to use integer:
+    // 1 = true, 0 = false
+    // Conversion from Integer to boolean:
+    this.favorite = obj['favorite'] == 1;
   }
 
   /// Named constructor for database-operation (needed by database_helper.dart),
@@ -86,6 +93,11 @@ class Movie {
     }
     // For the 9 rating-parameters like abstractness, ...:
     _convertStringToRatings(map['ratings']);
+
+    // Since the database does not provide boolean type, I have to use integer:
+    // 1 = true, 0 = false
+    // Conversion from Integer to boolean:
+    this.favorite = map['favorite'] == 1;
   }
 
   /// For database-operation (needed by database_helper.dart), see also:
@@ -101,6 +113,8 @@ class Movie {
     // For the 9 rating-parameters like abstractness, ...:
     map['ratings'] = _convertAllRatingsToOneString();
 
+    // Conversion from boolean to integer:
+    map['favorite'] = favorite ? 1 : 0;
     return map;
   }
 
@@ -145,6 +159,22 @@ class Movie {
         realism != 50 ||
         suspense != 50 ||
         wokeness != 50;
+  }
+
+  void resetRatings() {
+    abstractness = 50;
+    cinematography = 50;
+    romanticness = 50;
+    complexity = 50;
+    darkness = 50;
+    humor = 50;
+    realism = 50;
+    suspense = 50;
+    wokeness = 50;
+  }
+
+  bool isFavorite() {
+    return favorite;
   }
 
   /// For testing purposes, with some shortened strings

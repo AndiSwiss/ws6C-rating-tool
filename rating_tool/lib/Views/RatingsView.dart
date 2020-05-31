@@ -19,8 +19,8 @@ class _RatingsViewState extends State<RatingsView> {
   Future<List<Movie>> _getListOfRatedMoviesFromDb() async {
     var moviesFromDb = await dbHelper.getAllMovies();
 
-    // TODO: Filter ONLY already rated movies
-    return moviesFromDb;
+    // return ONLY already rated movies
+    return moviesFromDb.where((movie) => movie.isRated()).toList();
   }
 
   @override
@@ -28,9 +28,11 @@ class _RatingsViewState extends State<RatingsView> {
     return FutureBuilder(
         future: _getListOfRatedMoviesFromDb(),
         builder: (context, snapshot) {
+          List<Movie> movies;
           if (snapshot.hasData) {
-            List<Movie> movies = snapshot.data;
-
+            movies = snapshot.data;
+          }
+          if (movies != null && movies.isNotEmpty) {
             return Container(
               color: Color.fromRGBO(200, 200, 200, 1),
               child: ListView.builder(
@@ -39,9 +41,10 @@ class _RatingsViewState extends State<RatingsView> {
                   return Dismissible(
                     onDismissed: (DismissDirection direction) {
                       setState(() {
-                        print("deleted [$index]");
-                        movies.removeAt(index);
-                        //TODO: remove movie from db
+                        Movie movie = movies[index];
+                        print("removed rating [$index]: ${movie.title}");
+                        movie.resetRatings();
+                        dbHelper.update(movie);
                       });
                     },
                     secondaryBackground: Container(
@@ -49,7 +52,7 @@ class _RatingsViewState extends State<RatingsView> {
                       child: Align(
                         alignment: Alignment.centerRight,
                         child: Text(
-                          'Delete',
+                          'Delete rating',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 16,

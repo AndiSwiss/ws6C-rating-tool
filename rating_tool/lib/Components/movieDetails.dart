@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_tool/Components/rankingDraggableSheet.dart';
+import 'package:rating_tool/Components/favoriteIconButton.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
 import 'package:rating_tool/Database/database_helper.dart';
 
@@ -53,10 +54,15 @@ class _MovieDetailsState extends State<MovieDetails> {
       body: FutureBuilder(
         future: _searchMovieInDB(),
         builder: (context, snapshot) {
+          // The following is necessary for the case when one wants to unfavor
+          // an already favored movie (which is already in the db):
+          bool isFromDB = false;
+
           // If the movie is already in the the database, overwrite the 'movie'
           // with data from the database:
           if (snapshot.hasData) {
             movie = snapshot.data;
+            isFromDB = true;
           }
 
           if (snapshot.connectionState == ConnectionState.done) {
@@ -102,17 +108,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                           20,
                                       child: Align(
                                         alignment: Alignment.center,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.favorite_border,
-                                            color: Color.fromRGBO(
-                                                253, 104, 104, 1),
-                                            size: 40,
-                                          ),
-                                          onPressed: () {
-                                            // TODO: write here the action for adding the movie to the favorites lists in the db
-                                          },
-                                        ),
+                                        child: FavoriteIconButton(movie: movie),
                                       ),
                                     ),
                                   ],
@@ -172,7 +168,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     color: Colors.black87,
                                     iconSize: 20,
                                     onPressed: () {
-                                      if (movie.isRated()) {
+                                      if (movie.isRated() ||
+                                          movie.isFavorite() ||
+                                          isFromDB) {
                                         _addOrUpdateMovieInDb();
                                       }
                                       Navigator.of(context).pop();

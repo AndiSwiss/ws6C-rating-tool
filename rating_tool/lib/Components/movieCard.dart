@@ -1,25 +1,21 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
 
-
-class MovieCard extends StatelessWidget{
-
+class MovieCard extends StatelessWidget {
   final Movie movie;
 
   MovieCard(this.movie);
 
-  var formatter = new DateFormat();
+  final formatter = new DateFormat();
 
   @override
   Widget build(BuildContext context) {
     print(movie.posterUrl);
     return GestureDetector(
       onTap: () {
-        print(movie.title);
-        //TODO: open movie details
+        Navigator.of(context).pushNamed("/details", arguments: movie);
       },
       child: Container(
         height: 120,
@@ -33,15 +29,17 @@ class MovieCard extends StatelessWidget{
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              movie.posterUrl != null ? Container(
-                width: 80,
-                child: Image(
-                  image: NetworkImage(movie.posterUrl),
-                ),
-              ) : Container(
-                width: 80,
-                color: Color.fromRGBO(87, 58, 96, 1),
-              ),
+              movie.posterUrl != null
+                  ? Container(
+                      width: 80,
+                      child: Image(
+                        image: NetworkImage(movie.posterUrl),
+                      ),
+                    )
+                  : Container(
+                      width: 80,
+                      color: Color.fromRGBO(87, 58, 96, 1),
+                    ),
               SizedBox(width: 18),
               Expanded(
                 child: Padding(
@@ -61,12 +59,16 @@ class MovieCard extends StatelessWidget{
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 5),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 8, vertical: 5),
                         child: Text(
-                          DateFormat.yMMMd().format(movie.releaseDate).toString(), style: TextStyle(
-                          fontSize: 15,
-                          color: Colors.grey,
-                        ),
+                          DateFormat.yMMMd()
+                              .format(movie.releaseDate)
+                              .toString(),
+                          style: TextStyle(
+                            fontSize: 15,
+                            color: Colors.grey,
+                          ),
                         ),
                       ),
                     ],
@@ -79,5 +81,4 @@ class MovieCard extends StatelessWidget{
       ),
     );
   }
-
 }
