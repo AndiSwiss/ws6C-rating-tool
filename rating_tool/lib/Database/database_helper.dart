@@ -15,7 +15,8 @@ class DatabaseHelper {
   static final _databaseName = "MyDatabase.db";
 
   // Version 2: I introduced new table-column 'ratings':
-  static final _databaseVersion = 2;
+  // Version 3: I introduced new table-column 'favorite':
+  static final _databaseVersion = 3;
 
   static final table = 'my_table';
 
@@ -26,8 +27,7 @@ class DatabaseHelper {
   static final columnPosterUrl = 'posterUrl';
   static final columnPoster = 'poster'; // Currently not yet used!
   static final columnRatings = 'ratings';
-
-  // TODO: add property:  bool favorite
+  static final columnFavorite = 'favorite'; // 0 = not favorite, 1 = favorite
 
   // --------- //
   // Singleton //
@@ -70,7 +70,8 @@ class DatabaseHelper {
             $columnDescription TEXT,
             $columnPosterUrl TEXT,
             $columnPoster BLOB,
-            $columnRatings TEXT
+            $columnRatings TEXT,
+            $columnFavorite INTEGER
           )
           ''');
   }
@@ -85,6 +86,11 @@ class DatabaseHelper {
       await db.execute('ALTER TABLE $table ADD $columnRatings TEXT');
       print("Database upgraded from version 1 to version 2, added column "
           "'$columnRatings'");
+    }
+    if (oldVersion == 1 || oldVersion == 2) {
+      await db.execute('ALTER TABLE $table ADD $columnFavorite TEXT');
+      print("Database upgraded from version 2 to version 3, added column "
+          "'$columnFavorite'");
     }
   }
 

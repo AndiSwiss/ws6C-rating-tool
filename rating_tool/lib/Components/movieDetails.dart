@@ -104,13 +104,15 @@ class _MovieDetailsState extends State<MovieDetails> {
                                         alignment: Alignment.center,
                                         child: IconButton(
                                           icon: Icon(
-                                            Icons.favorite_border,
+                                            movie.favorite
+                                                ? Icons.favorite
+                                                : Icons.favorite_border,
                                             color: Color.fromRGBO(
                                                 253, 104, 104, 1),
                                             size: 40,
                                           ),
                                           onPressed: () {
-                                            // TODO: write here the action for adding the movie to the favorites lists in the db
+                                            movie.favorite = !movie.favorite;
                                           },
                                         ),
                                       ),
