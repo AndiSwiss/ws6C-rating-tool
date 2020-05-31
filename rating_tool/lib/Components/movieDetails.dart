@@ -163,7 +163,8 @@ class _MovieDetailsState extends State<MovieDetails> {
                                     color: Colors.black87,
                                     iconSize: 20,
                                     onPressed: () {
-                                      if (movie.isRated()) {
+                                      if (movie.isRated() ||
+                                          movie.isFavorite()) {
                                         _addOrUpdateMovieInDb();
                                       }
                                       Navigator.of(context).pop();

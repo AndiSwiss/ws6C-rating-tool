@@ -19,8 +19,8 @@ class _RatingsViewState extends State<RatingsView> {
   Future<List<Movie>> _getListOfRatedMoviesFromDb() async {
     var moviesFromDb = await dbHelper.getAllMovies();
 
-    // TODO: Filter ONLY already rated movies
-    return moviesFromDb;
+    // return ONLY already rated movies
+    return moviesFromDb.where((movie) => movie.isRated()).toList();
   }
 
   @override
