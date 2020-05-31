@@ -59,7 +59,6 @@ class Movie {
     this.description = obj['description'];
     this.posterUrl = obj['posterUrl'];
     if (this.posterUrl != null) {
-      this.posterUrl = "https://image.tmdb.org/t/p/w342" + this.posterUrl;
       this.poster = Image.network(posterUrl);
     }
     // For the 9 rating-parameters like abstractness, ...:

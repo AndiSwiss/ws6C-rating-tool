@@ -63,7 +63,9 @@ class _MovieDetailsState extends State<MovieDetails> {
             return Container(
               decoration: BoxDecoration(
                   image: DecorationImage(
-                image: new NetworkImage(movie.posterUrl),
+                image: movie.posterUrl != null && movie.posterUrl != ""
+                    ? NetworkImage(movie.posterUrl)
+                    : AssetImage("assets/empty.png"),
                 fit: BoxFit.fill,
               )),
               //background image blur effect
