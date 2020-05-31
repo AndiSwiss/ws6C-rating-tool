@@ -54,7 +54,6 @@ class _MovieDetailsState extends State<MovieDetails> {
       body: FutureBuilder(
         future: _searchMovieInDB(),
         builder: (context, snapshot) {
-
           // The following is necessary for the case when one wants to unfavor
           // an already favored movie (which is already in the db):
           bool isFromDB = false;
