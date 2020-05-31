@@ -161,6 +161,18 @@ class Movie {
         wokeness != 50;
   }
 
+  void resetRatings() {
+    abstractness = 50;
+    cinematography = 50;
+    romanticness = 50;
+    complexity = 50;
+    darkness = 50;
+    humor = 50;
+    realism = 50;
+    suspense = 50;
+    wokeness = 50;
+  }
+
   bool isFavorite() {
     return favorite;
   }
