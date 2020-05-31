@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rating_tool/Components/rankingDraggableSheet.dart';
+import 'package:rating_tool/Components/favoriteIconButton.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
 import 'package:rating_tool/Database/database_helper.dart';
 
@@ -102,19 +103,7 @@ class _MovieDetailsState extends State<MovieDetails> {
                                           20,
                                       child: Align(
                                         alignment: Alignment.center,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            movie.favorite
-                                                ? Icons.favorite
-                                                : Icons.favorite_border,
-                                            color: Color.fromRGBO(
-                                                253, 104, 104, 1),
-                                            size: 40,
-                                          ),
-                                          onPressed: () {
-                                            movie.favorite = !movie.favorite;
-                                          },
-                                        ),
+                                        child: FavoriteIconButton(movie: movie),
                                       ),
                                     ),
                                   ],
