@@ -28,7 +28,6 @@ class _SearchViewState extends State<SearchView> {
     _controller = new ScrollController();
     //reset("");
     _controller.addListener(() {
-      //TODO Fix double loading of pages due to maxScrollExtend not being updated fast enough
       //debugPrint(_controller.position.pixels.toString() + " -- " +  _controller.position.maxScrollExtent.toString());
       //debugPrint((_controller.position.pixels >= _controller.position.maxScrollExtent - 100).toString());
       //if ((_controller.position.atEdge) ) {
