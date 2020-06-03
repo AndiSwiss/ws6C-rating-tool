@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_tool/Components/movieDetails.dart';
+import 'package:rating_tool/Components/fullScreenImage.dart';
 import 'package:rating_tool/Views/FavoritesView.dart';
 import 'package:rating_tool/Views/RatingsView.dart';
 import 'package:rating_tool/Views/SearchView.dart';
@@ -44,6 +45,7 @@ class MyApp extends StatelessWidget {
       routes: {
         "/search": (context) => MyHomePage(),
         "/details": (context) => MovieDetails(),
+        "/image": (context) => FullScreenImage(),
       },
     );
   }

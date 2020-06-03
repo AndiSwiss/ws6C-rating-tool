@@ -99,7 +99,9 @@ class _MovieDetailsState extends State<MovieDetails> {
                                         width:
                                             MediaQuery.of(context).size.width /
                                                 3,
-                                        child: movie.poster,
+                                        child: GestureDetector(
+                                          onTap: () => movie.posterUrl != null ? Navigator.of(context).pushNamed("/image", arguments: movie.posterUrl) : () => {},
+                                            child: movie.poster),
                                       ),
                                     ),
                                     Container(

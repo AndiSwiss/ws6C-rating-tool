@@ -83,9 +83,10 @@ class _SearchViewState extends State<SearchView> {
     if (response.statusCode == 200) {
       debugPrint("status ok");
       apiResponse = json.decode(response.body);
+      
       if (apiResponse["total_pages"] >= page) {
         results = apiResponse["results"];
-        //debugPrint(results.toString());
+        debugPrint(results.toString());
         setState(() {
           results.forEach((m) => {
                 //debugPrint(m["release_date"].toString()),
