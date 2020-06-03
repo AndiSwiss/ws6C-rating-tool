@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
@@ -9,13 +8,12 @@ import 'package:rating_tool/Components/searchBar.dart';
 import 'package:rating_tool/Data_Classes/movie.dart';
 import 'package:http/http.dart' as http;
 
-class SearchView extends StatefulWidget{
-
+class SearchView extends StatefulWidget {
   @override
   _SearchViewState createState() => _SearchViewState();
 }
 
-class _SearchViewState extends State<SearchView>{
+class _SearchViewState extends State<SearchView> {
   Map<String, dynamic> apiResponse;
   List<dynamic> results;
   List<MoviePoster> posters = new List<MoviePoster>();
@@ -25,8 +23,7 @@ class _SearchViewState extends State<SearchView>{
 
   ScrollController _controller;
 
-
-  void initState(){
+  void initState() {
     super.initState();
     _controller = new ScrollController();
     //reset("");
@@ -44,30 +41,28 @@ class _SearchViewState extends State<SearchView>{
       }
 
       //check scrolling direction
-      if(_controller.position.userScrollDirection == ScrollDirection.reverse){
-        if(!isScrollingDown){
+      if (_controller.position.userScrollDirection == ScrollDirection.reverse) {
+        if (!isScrollingDown) {
           setState(() {
             isScrollingDown = true;
             _show = false;
           });
         }
       }
-      if(_controller.position.userScrollDirection == ScrollDirection.forward){
-        if(isScrollingDown){
+      if (_controller.position.userScrollDirection == ScrollDirection.forward) {
+        if (isScrollingDown) {
           setState(() {
             isScrollingDown = false;
             _show = true;
           });
         }
       }
-
     });
-
   }
 
   @override
   void dispose() {
-    _controller.removeListener(() { });
+    _controller.removeListener(() {});
     super.dispose();
   }
 
@@ -94,40 +89,38 @@ class _SearchViewState extends State<SearchView>{
         //debugPrint(results.toString());
         setState(() {
           results.forEach((m) => {
-            //debugPrint(m["release_date"].toString()),
-            posters.add(new MoviePoster(Movie(
-              title: m["title"],
-              posterUrl: m["poster_path"],
-              id: m["id"],
-              description: m["overview"],
-              releaseDate: DateTime.parse((m["release_date"] != ""
-                  ? m["release_date"]
-                  : "1200-01-01")
-                  .replaceAll(RegExp('-'), '')),
-            )))
-          });
+                //debugPrint(m["release_date"].toString()),
+                posters.add(new MoviePoster(Movie(
+                  title: m["title"],
+                  posterUrl: m["poster_path"],
+                  id: m["id"],
+                  description: m["overview"],
+                  releaseDate: DateTime.parse((m["release_date"] != ""
+                          ? m["release_date"]
+                          : "1200-01-01")
+                      .replaceAll(RegExp('-'), '')),
+                )))
+              });
         });
       }
       loading = false;
     }
   }
 
-
   //default = search/home
-  int _selectedIndex = 1;
+//  int _selectedIndex = 1;
 
   //change activeIndex
-  void _onTap(int index){
-    setState(() {
-      _selectedIndex = index;
-    });
-    print("active index: "+_selectedIndex.toString());
-  }
+//  void _onTap(int index){
+//    setState(() {
+//      _selectedIndex = index;
+//    });
+//    print("active index: "+_selectedIndex.toString());
+//  }
 
   //show/hide appBar variables
   bool _show = true;
   bool isScrollingDown = false;
-
 
   @override
   Widget build(BuildContext context) {
@@ -157,11 +150,12 @@ class _SearchViewState extends State<SearchView>{
             ],
           ),
         ),
-        _show ? SearchBar(
-          onSubmit: (text) => {reset(text), getMovies()},
-        ) : SizedBox(),
+        _show
+            ? SearchBar(
+                onSubmit: (text) => {reset(text), getMovies()},
+              )
+            : SizedBox(),
       ],
     );
   }
-
 }
