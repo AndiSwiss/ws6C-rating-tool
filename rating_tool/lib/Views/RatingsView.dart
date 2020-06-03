@@ -5,8 +5,6 @@ import 'package:rating_tool/Data_Classes/movie.dart';
 import 'package:rating_tool/Database/database_helper.dart';
 
 class RatingsView extends StatefulWidget {
-  final String title;
-  RatingsView({this.title = "Ratings"});
 
   @override
   _RatingsViewState createState() => _RatingsViewState();

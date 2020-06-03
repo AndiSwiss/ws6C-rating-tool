@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rating_tool/Utils/FadeRoute.dart';
+import 'package:rating_tool/Utils/fadeRoute.dart';
 import 'package:rating_tool/main.dart';
 
 class SplashScreen extends StatefulWidget{
