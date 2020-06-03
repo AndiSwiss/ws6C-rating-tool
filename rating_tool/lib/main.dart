@@ -5,7 +5,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:rating_tool/Components/movieDetails.dart';
 import 'package:rating_tool/Components/fullScreenImage.dart';
-import 'package:rating_tool/Components/searchBar.dart';
 import 'package:rating_tool/Views/FavoritesView.dart';
 import 'package:rating_tool/Views/RatingsView.dart';
 import 'package:rating_tool/Views/SearchView.dart';
@@ -34,7 +33,6 @@ class MyApp extends StatelessWidget {
     },
   );
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -56,16 +54,13 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
 
-
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
   //set searchView to default page
   int bottomSelectedIndex = 1;
-
 
   void initState() {
     super.initState();
@@ -82,24 +77,25 @@ class _MyHomePageState extends State<MyHomePage> {
     keepPage: true,
   );
 
-  void pageChanged(int index){
+  void pageChanged(int index) {
     setState(() {
       bottomSelectedIndex = index;
     });
   }
 
-  void bottomTapped(index){
+  void bottomTapped(index) {
     setState(() {
       bottomSelectedIndex = index;
-      pageController.animateToPage(index, duration: Duration(microseconds: 500), curve: Curves.ease);
+      pageController.animateToPage(index,
+          duration: Duration(microseconds: 500), curve: Curves.ease);
     });
   }
 
-  Widget buildPageView(){
+  Widget buildPageView() {
     return PageView(
       controller: pageController,
       physics: new NeverScrollableScrollPhysics(),
-      onPageChanged: (index){
+      onPageChanged: (index) {
         pageChanged(index);
       },
       children: <Widget>[
@@ -110,20 +106,23 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<TitleProvider>(
       create: (context) => TitleProvider(),
       child: Builder(
-        builder: (context){
+        builder: (context) {
           return Consumer<TitleProvider>(
-            builder: (context, provider, child){
+            builder: (context, provider, child) {
               return Scaffold(
                 appBar: AppBar(
-                  title: Text(provider.title, style: GoogleFonts.rubik(
-                      textStyle: TextStyle(color: Color.fromRGBO(249, 245, 227, 1), fontSize: 22, letterSpacing: 1, fontWeight: FontWeight.w400 )
-                  )),
+                  title: Text(provider.title,
+                      style: GoogleFonts.rubik(
+                          textStyle: TextStyle(
+                              color: Color.fromRGBO(249, 245, 227, 1),
+                              fontSize: 22,
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.w400))),
                   backgroundColor: Color.fromRGBO(42, 42, 42, 1),
                   centerTitle: true,
                   elevation: 0.0,
@@ -151,13 +150,13 @@ class _MyHomePageState extends State<MyHomePage> {
                   unselectedItemColor: Colors.grey,
                   showUnselectedLabels: false,
                   showSelectedLabels: false,
-                  onTap: (index){
+                  onTap: (index) {
                     bottomTapped(index);
-                    if(index == 0){
+                    if (index == 0) {
                       provider.setTitle("Ratings");
-                    }else if(index == 1){
+                    } else if (index == 1) {
                       provider.setTitle("Movie Rating Tool");
-                    }else if(index == 2){
+                    } else if (index == 2) {
                       provider.setTitle("Favorites");
                     }
                   },
