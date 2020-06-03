@@ -8,13 +8,13 @@ class FullScreenImage extends StatelessWidget {
       onTap: () => Navigator.of(context).pop(),
       child: Scaffold(
         backgroundColor: Colors.black,
-        body: new Image.network(
+        body: url!= null ? new Image.network(
           url,
           fit: BoxFit.contain,
           height: double.infinity,
           width: double.infinity,
           alignment: Alignment.center,
-        ),
+        ) : new Container(),
       ),
     );
   }
