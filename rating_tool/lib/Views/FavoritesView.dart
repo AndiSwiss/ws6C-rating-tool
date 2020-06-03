@@ -5,8 +5,6 @@ import 'package:rating_tool/Data_Classes/movie.dart';
 import 'package:rating_tool/Database/database_helper.dart';
 
 class FavoritesView extends StatefulWidget {
-  final String title;
-  FavoritesView({this.title = "Favorites"});
 
   @override
   _FavoritesViewState createState() => _FavoritesViewState();

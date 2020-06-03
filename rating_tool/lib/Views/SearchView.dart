@@ -10,8 +10,6 @@ import 'package:rating_tool/Data_Classes/movie.dart';
 import 'package:http/http.dart' as http;
 
 class SearchView extends StatefulWidget{
-  final String title;
-  SearchView({this.title = "Movie Rating Tool"});
 
   @override
   _SearchViewState createState() => _SearchViewState();
